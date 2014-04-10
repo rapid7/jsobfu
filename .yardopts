@@ -1,0 +1,7 @@
+--protected
+--exclude samples/
+--exclude \.ut\.rb/
+--exclude \.ts\.rb/
+--files README.md
+
+lib/**/*.rb

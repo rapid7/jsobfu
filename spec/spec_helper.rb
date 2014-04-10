@@ -1,0 +1,20 @@
+require 'rubygems'
+require 'bundler'
+require 'minitest/autorun' # why do i need this..?
+Bundler.require(:default, :test)
+
+# add project lib directory to load path
+spec_pathname = Pathname.new(__FILE__).dirname
+root_pathname = spec_pathname.join('..').expand_path
+lib_pathname = root_pathname.join('lib')
+$LOAD_PATH.unshift(lib_pathname.to_s)
+
+require 'jsobfu'
+
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+support_glob = root_pathname.join('spec', 'support', '**', '*.rb')
+
+Dir.glob(support_glob) do |path|
+  require path
+end
