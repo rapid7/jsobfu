@@ -1,11 +1,3 @@
-//@wip
-/**
- * CoffeeScript Compiler v1.7.1
- * http://coffeescript.org
- *
- * Copyright 2011, Jeremy Ashkenas
- * Released under the MIT License
- */
 /**
  * CoffeeScript Compiler v1.7.1
  * http://coffeescript.org
