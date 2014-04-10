@@ -26,6 +26,9 @@ class JSObfu::Scope < Hash
   # @return [JSObfu::Scope] parent that spawned this scope
   attr_accessor :parent
 
+  # @return [Hash] mapping old var names to random ones
+  attr_accessor :renames
+
   # @param [Hash] opts the options hash
   # @option opts [Rex::Exploitation::JSObfu::Scope] :parent an optional parent scope,
   #   sometimes necessary to prevent needless var shadowing
@@ -35,6 +38,7 @@ class JSObfu::Scope < Hash
     @first_char_set = opts[:first_char_set] || [*'A'..'Z']+[*'a'..'z']+['_', '$']
     @char_set       = opts[:first_char_set] || @first_char_set + [*'0'..'9']
     @min_len        = opts[:min_len] || 1
+    @renames        = {}
   end
 
   # Generates a unique, "safe" random variable
@@ -48,10 +52,27 @@ class JSObfu::Scope < Hash
         BUILTIN_VARS.include?(text)
 
         self[text] = nil
+
         return text
       end
       len += 1
     end
+  end
+
+  def rename_var(var_name, opts={})
+    generate = opts.fetch(:generate, true)
+    puts "rename_var #{var_name}" if generate
+    renamed   = @renames[var_name]
+    renamed ||= parent.rename_var(var_name, :generate => false) unless parent.nil?
+
+    if generate and !renamed
+      @renames[var_name] = random_var_name
+      renamed = @renames[var_name]
+    end
+
+    puts "Mapped #{var_name} => #{renamed}" if renamed
+
+    renamed
   end
 
   # Check if we've used this var before. This will also check any

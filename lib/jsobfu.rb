@@ -90,10 +90,6 @@ protected
     scope.push!
 
     ast.each do |node|
-      #if node.respond_to? :value and node.value.kind_of? String and node.value =~ /bodyOnLoad/i
-      # $stdout.puts("bodyOnLoad: #{node.class}: #{node.value}")
-      #end
-
       case node
       when nil
         nil
@@ -125,24 +121,16 @@ protected
 
       # Variables
       when ::RKelly::Nodes::VarDeclNode
-        if @vars[node.name].nil?
-          @vars[node.name] = scope.random_var_name
-        end
-        node.name = @vars[node.name]
+        node.name = scope.rename_var(node.name)
       when ::RKelly::Nodes::ParameterNode
-        if @vars[node.value].nil?
-          @vars[node.value] = scope.random_var_name
-        end
-        node.value = @vars[node.value]
+        node.value = scope.rename_var(node.value)
       when ::RKelly::Nodes::ResolveNode
         #$stdout.puts("Resolve bodyOnload: #{@vars[node.value]}") if "bodyOnLoad" == node.value
-        node.value = @vars[node.value] if @vars[node.value]
+        # node.value = scope.rename_var(node.value) if scope.has_key?(node.value)
       when ::RKelly::Nodes::DotAccessorNode
         case node.value
         when ::RKelly::Nodes::ResolveNode
-          if @vars[node.value.value]
-            node.value.value = @vars[node.value.value]
-          end
+          node.value.value = scope.rename_var(node.value.value)
         #else
         # $stderr.puts("Non-resolve node as target of dotaccessor: #{node.value.class}")
         end
@@ -152,13 +140,7 @@ protected
         #$stdout.puts("FunctionDecl: #{node.value}")
         # Functions can also act as objects, so store them in the vars
         # and the functions list so we can replace them in both places
-        if @funcs[node.value].nil? and not @funcs.values.include?(node.value)
-          @funcs[node.value] = scope.random_var_name
-          if @vars[node.value].nil?
-            @vars[node.value] = @funcs[node.value]
-          end
-          node.value = @funcs[node.value]
-        end
+        node.value = scope.rename_var(node.value)
       when ::RKelly::Nodes::FunctionCallNode
         # The value of a FunctionCallNode is some sort of accessor node or a ResolveNode
         # so this is basically useless
@@ -306,7 +288,7 @@ protected
 
       part = str.slice!(0, len)
 
-      var = assign_vars ? @scope.random_var_name : nil
+      var = assign_vars ? scope.random_var_name : nil
       parts.push( [ var, "#{quote}#{part}#{quote}" ] )
     end
 

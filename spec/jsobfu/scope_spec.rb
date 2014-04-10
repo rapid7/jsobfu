@@ -49,4 +49,81 @@ describe JSObfu::Scope do
     end
   end
 
+  describe 'stack behavior' do
+    context 'add a var to the Scope, then call #pop!' do
+      let(:var_name) { 'a' }
+      it 'no longer contains that var' do
+        scope[var_name] = 1
+        scope.pop!
+        expect(scope).not_to have_key(var_name)
+      end
+    end
+
+    context 'add a var to the Scope, then call #push!' do
+      let(:var_name) { 'a' }
+      it 'still contains that var' do
+        scope[var_name] = 1
+        scope.push!
+        expect(scope).to have_key(var_name)
+      end
+    end
+
+    context 'add a var to the Scope, call #push!, then call #pop!' do
+      let(:var_name) { 'a' }
+      it 'still contains that var' do
+        scope[var_name] = 1
+        scope.push!
+        scope.pop!
+        expect(scope).to have_key(var_name)
+      end
+    end
+
+    context 'call #push!, add a var to the Scope, call #push!, then call #pop!' do
+      let(:var_name) { 'a' }
+      it 'still contains that var' do
+        scope.push!
+        scope[var_name] = 1
+        scope.push!
+        scope.pop!
+        expect(scope).to have_key(var_name)
+      end
+    end
+
+    context 'call #push!, add a var to the Scope, call #pop!, then call #push!' do
+      let(:var_name) { 'a' }
+      it 'no longer contains that var' do
+        scope.push!
+        scope[var_name] = 1
+        scope.pop!
+        scope.push!
+        expect(scope).not_to have_key(var_name)
+      end
+    end
+
+    context 'call #push!, add var1, call #push!, add var2, then call #pop!' do
+      let(:var1) { 'a' }
+      let(:var2) { 'b' }
+
+      before do
+        scope.push!
+        scope[var1] = 1
+        scope.push!
+        scope[var2] = 1
+        scope.pop!
+      end
+
+      it 'still contains var1' do
+        expect(scope).to have_key(var1)
+      end
+
+      it 'no longer contains var2' do
+        expect(scope).not_to have_key(var2)
+      end
+    end
+  end
+
+  describe '#rename_var' do
+    pending 'more testing'
+  end
+
 end

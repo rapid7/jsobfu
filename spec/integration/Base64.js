@@ -1,3 +1,4 @@
+//@wip
 // Credit: David Chambers
 // Source: https://github.com/davidchambers/Base64.js
 // License WTFPL
