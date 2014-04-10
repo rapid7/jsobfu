@@ -6,6 +6,9 @@ class JSObfu
   require_relative 'jsobfu/scope'
   require_relative 'jsobfu/utils'
 
+  # @return [JSObfu::Scope] the global scope
+  attr_reader :scope
+
   #
   # The maximum length of a string that can be passed through
   # #transform_string without being chopped up into separate
@@ -84,6 +87,8 @@ protected
   # +ast+ should be the result of RKelly::Parser#parse
   #
   def obfuscate_r(ast=self.ast)
+    scope.push!
+
     ast.each do |node|
       #if node.respond_to? :value and node.value.kind_of? String and node.value =~ /bodyOnLoad/i
       # $stdout.puts("bodyOnLoad: #{node.class}: #{node.value}")
@@ -121,12 +126,12 @@ protected
       # Variables
       when ::RKelly::Nodes::VarDeclNode
         if @vars[node.name].nil?
-          @vars[node.name] = @scope.random_var_name
+          @vars[node.name] = scope.random_var_name
         end
         node.name = @vars[node.name]
       when ::RKelly::Nodes::ParameterNode
         if @vars[node.value].nil?
-          @vars[node.value] = @scope.random_var_name
+          @vars[node.value] = scope.random_var_name
         end
         node.value = @vars[node.value]
       when ::RKelly::Nodes::ResolveNode
@@ -148,7 +153,7 @@ protected
         # Functions can also act as objects, so store them in the vars
         # and the functions list so we can replace them in both places
         if @funcs[node.value].nil? and not @funcs.values.include?(node.value)
-          @funcs[node.value] = @scope.random_var_name
+          @funcs[node.value] = scope.random_var_name
           if @vars[node.value].nil?
             @vars[node.value] = @funcs[node.value]
           end
@@ -175,6 +180,7 @@ protected
       #end
     end
 
+    scope.pop!
     nil
   end
 

@@ -14,12 +14,17 @@ class JSObfu::Scope < Hash
     implements interface let package private protected public static yield
   )
 
-  # these vars should not be shadowed as they may be used in other obfuscated code
+  # these vars should not be shadowed as they in the exploit code,
+  # and generating them would cause problems.
   BUILTIN_VARS = %w(
     String window unescape location chrome document navigator location
     frames ActiveXObject XMLHttpRequest Function eval Object Math CSS
-    parent opener event frameElement
+    parent opener event frameElement Error TypeError setTimeout setInterval
+    top arguments Array
   )
+  
+  # @return [JSObfu::Scope] parent that spawned this scope
+  attr_accessor :parent
 
   # @param [Hash] opts the options hash
   # @option opts [Rex::Exploitation::JSObfu::Scope] :parent an optional parent scope,
@@ -55,7 +60,26 @@ class JSObfu::Scope < Hash
   #
   # @return [Boolean] whether var is in scope
   def has_key?(key)
-    super or (@parent and @parent.has_key?(key))
+    super or (parent and parent.has_key?(key))
+  end
+
+  # replaces this Scope in the "parent" chain with a copy,
+  # empties current scope, and returns. Essentially an in-place
+  # push operation
+  def push!
+    replacement = dup
+    replacement.parent = @parent
+    @parent = replacement
+    clear
+  end
+
+  # "Consumes" the parent and replaces self with it
+  def pop!
+    clear
+    if @parent
+      merge! @parent
+      @parent = @parent.parent
+    end
   end
 
   # @return [String] a random string that can be used as a var
