@@ -3,7 +3,7 @@ require 'spec_helper'
 describe JSObfu::Scope do
 
   subject(:scope) do
-    described_class.new()
+    described_class.new
   end
 
   describe '#random_var_name' do

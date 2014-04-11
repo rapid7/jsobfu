@@ -12,6 +12,7 @@ class JSObfu::Scope < Hash
     for function if in instanceof new return switch this throw try
     typeof var void while with class enum export extends import super
     implements interface let package private protected public static yield
+    const let
   )
 
   # these vars should not be shadowed as they in the exploit code,
@@ -20,7 +21,7 @@ class JSObfu::Scope < Hash
     String window unescape location chrome document navigator location
     frames ActiveXObject XMLHttpRequest Function eval Object Math CSS
     parent opener event frameElement Error TypeError setTimeout setInterval
-    top arguments Array
+    top arguments Array Date
   )
   
   # @return [JSObfu::Scope] parent that spawned this scope
@@ -59,13 +60,28 @@ class JSObfu::Scope < Hash
     end
   end
 
+  # Re-maps your +var_name+ to a unique, random
+  # names in the current scope
+  #
+  # @param var_name [String] the name you want to replace. This
+  #   name will be remembered in the #renames hash
+  # @param opts [Hash] the options hash
+  # @option opts [Boolean] :generate if the variable was not
+  #   explicitly renamed before, in this scope or any parent
+  #   scope, generate a new random name
+  #
+  # @return [String] the randomly generated replacement name
+  # @return nil if generate=false and +var_name+ was not already replaced
   def rename_var(var_name, opts={})
     generate = opts.fetch(:generate, true)
     #puts "rename_var #{var_name}" if generate
-    renamed   = @renames[var_name]
-    renamed ||= parent.rename_var(var_name, :generate => false) unless parent.nil?
+    renamed = @renames[var_name]
 
-    if generate and !renamed
+    if renamed.nil? and parent
+      renamed = parent.rename_var(var_name, :generate => false)
+    end
+
+    if renamed.nil? and generate
       @renames[var_name] = random_var_name
       renamed = @renames[var_name]
     end
@@ -76,8 +92,7 @@ class JSObfu::Scope < Hash
   end
 
   # Check if we've used this var before. This will also check any
-  # attached parent scopes (and their parents, recursively), to
-  # prevent shadowing mistakes.
+  # attached parent scopes (and their parents, recursively)
   #
   # @return [Boolean] whether var is in scope
   def has_key?(key)
@@ -90,6 +105,8 @@ class JSObfu::Scope < Hash
   def push!
     replacement = dup
     replacement.parent = @parent
+    replacement.renames = @renames
+    @renames = {}
     @parent = replacement
     clear
   end
@@ -99,6 +116,7 @@ class JSObfu::Scope < Hash
     clear
     if @parent
       merge! @parent
+      @renames = @parent.renames
       @parent = @parent.parent
     end
   end
