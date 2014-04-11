@@ -101,7 +101,7 @@ describe JSObfu::Utils do
 
       it 'calls itself recursively' do
         expect(described_class).to receive(:transform_string).at_least(2).times.and_call_original
-        described_class.transform_string js_string
+        described_class.transform_string js_string, JSObfu::Scope.new
       end
     end
 
@@ -110,7 +110,7 @@ describe JSObfu::Utils do
 
       it 'does not call itself recursively' do
         expect(described_class).to receive(:transform_string).once.and_call_original
-        described_class.transform_string js_string
+        described_class.transform_string js_string, JSObfu::Scope.new
       end
     end
   end

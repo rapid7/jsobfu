@@ -93,7 +93,7 @@ module JSObfu::Utils
   #
   # Randomly calls one of the +transform_string_*+ methods
   #
-  def self.transform_string(str)
+  def self.transform_string(str, scope)
     str = str.dup
     quote = str[0,1]
     # pull off the quotes
@@ -101,12 +101,12 @@ module JSObfu::Utils
     return quote*2 if str.length == 0
 
     if str.length > MAX_STRING_CHUNK
-      return safe_split(str, :quote => quote).map { |arg| transform_string(arg) }.join('+')
+      return safe_split(str, :quote => quote).map { |arg| transform_string(arg, scope) }.join('+')
     end
 
     case rand(2)
     when 0
-      transform_string_split_concat(str, quote)
+      transform_string_split_concat(str, quote, scope)
     when 1
       transform_string_fromCharCode(str)
     end
@@ -191,10 +191,8 @@ module JSObfu::Utils
   # correct order.  This method can be called safely on strings containing
   # escape sequences.  See #safe_split.
   #
-  
-  #
-  def self.transform_string_split_concat(str, quote)
-    parts = safe_split(str, :quote => quote)
+  def self.transform_string_split_concat(str, quote, scope)
+    parts = safe_split(str, :quote => quote).map {|s| [scope.random_var_name, s] }
     func = "(function () { var "
     ret = "; return "
     parts.sort { |a,b| rand }.each do |part|

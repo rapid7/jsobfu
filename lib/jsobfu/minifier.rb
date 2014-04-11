@@ -48,4 +48,30 @@ class JSObfu::Minifier < RKelly::Visitors::ECMAVisitor
     super
   end
 
+  def visit_PropertyNode(o)
+    if o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
+       n = '"'
+       o.name.unpack("C*") { |c|
+         n << case rand(3)
+         when 0; "\\x%02x"%(c)
+         when 1; "\\#{c.to_s 8}"
+         when 2; [c].pack("C")
+         end
+       }
+       n << '"'
+       o.instance_variable_set :@name, n
+    end
+    super
+  end
+
+  def visit_NumberNode(o)
+    o.value = JSObfu::Utils::transform_number(o.value)
+    super
+  end
+
+  def visit_StringNode(o)
+    o.value = JSObfu::Utils::transform_string(o.value, scope)
+    super
+  end
+
 end

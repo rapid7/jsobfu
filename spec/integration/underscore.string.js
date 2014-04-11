@@ -6,7 +6,6 @@
 //  Version '2.3.0'
 
 !function(root, String){
-  'use strict';
 
   // Defining helper functions.
 
