@@ -1,9 +1,5 @@
 require 'rkelly'
 
-class RKelly::Nodes::Node
-  attr_accessor :obfuscated
-end
-
 # The primary class, used to parse and obfuscate Javascript code.
 class JSObfu
 
