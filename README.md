@@ -64,4 +64,4 @@ $ rspec
 
 ### License
 
-MIT
+BSD
