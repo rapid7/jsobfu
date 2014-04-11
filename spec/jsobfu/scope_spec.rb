@@ -123,7 +123,79 @@ describe JSObfu::Scope do
   end
 
   describe '#rename_var' do
-    pending 'more testing'
+    context 'when called more than once on the same var' do
+      let(:var) { 'a' }
+      let(:n) { 10 }
+      let(:first_rename) { scope.rename_var(var) }
+
+      it 'returns the same result' do
+        n.times { expect(scope.rename_var(var)).to eq first_rename }
+      end
+    end
+
+    context 'when called on different vars' do
+      let(:var1) { 'a' }
+      let(:var2) { 'b' }
+      let(:n) { 50 }
+
+      it 'returns a different result' do
+        n.times do
+          scope = described_class.new
+          expect(scope.rename_var(var1)).not_to eq scope.rename_var(var2)
+        end
+      end
+    end
+
+    context '#push!; #rename_var(a); #pop!; #rename_var(a)' do
+      let(:var) { 'a' }
+      let(:n)   { 50 }
+
+      it 're-maps the vars to (usually) different random strings' do
+        scope.push!
+        first_var = scope.rename_var(var)
+        scope.pop!
+        n.times do
+          new_var = scope.rename_var(var)
+          if new_var == first_var # this is allowed to happen occasionally since shadowing is OK.
+            next
+          else
+            expect(new_var).not_to eq first_var
+          end
+        end
+      end
+    end
+
+    context '#push!; #push!; #rename_var(a); #pop!; #rename_var(a)' do
+      let(:var) { 'a' }
+      let(:n)   { 50 }
+
+      it 're-maps the vars to (usually) different random strings' do
+        scope.push!
+        scope.push!
+        first_var = scope.rename_var(var)
+        scope.pop!
+        n.times do
+          new_var = scope.rename_var(var)
+          if new_var == first_var # this is allowed to happen occasionally since shadowing is OK.
+            next
+          else
+            expect(new_var).not_to eq first_var
+          end
+        end
+      end
+    end
+
+    context '#rename_var(a); push!; #push!; #rename_var(a);' do
+      let(:var) { 'a' }
+      let(:n)   { 50 }
+
+      it 're-maps the vars to the same random string' do
+        first_var = scope.rename_var(var)
+        scope.push!
+        scope.push!
+        expect(scope.rename_var(var)).to eq first_var
+      end
+    end
   end
 
 end

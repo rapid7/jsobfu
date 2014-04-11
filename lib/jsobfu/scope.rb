@@ -61,7 +61,7 @@ class JSObfu::Scope < Hash
 
   def rename_var(var_name, opts={})
     generate = opts.fetch(:generate, true)
-    puts "rename_var #{var_name}" if generate
+    #puts "rename_var #{var_name}" if generate
     renamed   = @renames[var_name]
     renamed ||= parent.rename_var(var_name, :generate => false) unless parent.nil?
 
@@ -70,7 +70,7 @@ class JSObfu::Scope < Hash
       renamed = @renames[var_name]
     end
 
-    puts "Mapped #{var_name} => #{renamed}" if renamed
+    #puts "Mapped #{var_name} => #{renamed}" if renamed
 
     renamed
   end
