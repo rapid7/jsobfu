@@ -3,7 +3,6 @@ RSpec::Matchers.define :evaluate_to do |expected|
     begin
       @expected_output = ExecJS.compile(expected).call('test')
     rescue ExecJS::ProgramError => e
-      File.write('/tmp/fail.html', "<html><body><script>#{expected}</script></body></html>")
       @example_failed = e
       @bail = true
     end
@@ -11,7 +10,6 @@ RSpec::Matchers.define :evaluate_to do |expected|
     begin
       @observed_output = ExecJS.compile(observed).call('test')
     rescue ExecJS::ProgramError => e
-      File.write('/tmp/fail.html', "<html><body><script>#{observed}</script></body></html>")
       @compiled_failed = e
       @bail = true
     end
