@@ -19,7 +19,7 @@ describe JSObfu do
 
     context 'when given the string "YOLOSWAG"' do
       it 'returns nil' do
-        expect(jsobfu.sym('x')).to be_nil
+        expect(jsobfu.sym('YOLOSWAG')).to be_nil
       end
     end
   end
