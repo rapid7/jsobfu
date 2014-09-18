@@ -5,7 +5,11 @@ class JSObfu
 
   require_relative 'jsobfu/scope'
   require_relative 'jsobfu/utils'
-  require_relative 'jsobfu/minifier'
+  require_relative 'jsobfu/ecma_tight'
+  require_relative 'jsobfu/hoister'
+  require_relative 'jsobfu/analyzer'
+  require_relative 'jsobfu/obfuscator'
+  require_relative 'jsobfu/encoder'
 
   # @return [JSObfu::Scope] the global scope
   attr_reader :scope
@@ -40,7 +44,7 @@ class JSObfu
   #
   # @return [String] if successful
   def obfuscate(opts={})
-    @code = JSObfu::Minifier.new.accept(ast).to_s
+    @code = JSObfu::Obfuscator.new.accept(ast).to_s
     if opts.fetch(:strip_whitespace, true)
       @code.gsub!(/(^\s+|\s+$)/, '')
       @code.delete!("\n")

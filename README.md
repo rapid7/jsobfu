@@ -62,6 +62,8 @@ $ cd jsobfu
 $ rspec
 ```
 
+To run without integration specs, set `INTEGRATION=false` as an environment variable.
+
 ### License
 
 MIT
