@@ -33,8 +33,7 @@ class JSObfu
 
   # @return [RKelly::Nodes::SourceElementsNode] the abstract syntax tree
   def ast
-    parse unless @ast
-    @ast
+    @ast || parse
   end
 
   # Parse and obfuscate
@@ -44,13 +43,23 @@ class JSObfu
   #
   # @return [String] if successful
   def obfuscate(opts={})
-    @code = JSObfu::Obfuscator.new.accept(ast).to_s
+    @obfuscator = JSObfu::Obfuscator.new(scope: @scope)
+    @code = @obfuscator.accept(ast).to_s
     if opts.fetch(:strip_whitespace, true)
       @code.gsub!(/(^\s+|\s+$)/, '')
       @code.delete!("\n")
       @code.delete!("\r")
     end
     self
+  end
+
+  # Returns the obfuscated name for the variable or function {sym}
+  #
+  # @param [String] sym the name of the variable or function 
+  # @return [String] the obfuscated name
+  def sym(sym)
+    raise RuntimeError, "Must obfuscate before calling #sym" if @obfuscator.nil?
+    @obfuscator.renames[sym.to_s]
   end
 
 protected

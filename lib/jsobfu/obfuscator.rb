@@ -5,10 +5,19 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # @return [JSObfu::Scope] the scope maintained while walking the ast
   attr_reader :scope
 
-  def initialize
-    @scope = JSObfu::Scope.new
-    @unresolved = []
-    super
+  # Note: At a high level #renames is not that useful, because var shadowing can
+  # cause multiple variables in different contexts to be mapped separately.
+  # - joev
+
+  # @return [Hash] of original var/fn names to our new random neames
+  attr_reader :renames
+
+  # @param opts [Hash] the options hash
+  # @option opts [JSObfu::Scope] :scope the optional scope to save vars to
+  def initialize(opts={})
+    @scope = opts.fetch(:scope, JSObfu::Scope.new)
+    @renames = {}
+    super()
   end
 
   # Maintains a stack of closures that we have visited. This method is called
@@ -35,7 +44,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     o.value.each { |x| hoister.accept(x) }
 
     hoister.scope.keys.each do |key|
-      scope.rename_var(key)
+      rename_var(key)
     end
 
     ret = super
@@ -59,7 +68,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   def visit_FunctionExprNode(o)
     if o.value != 'function'
-      o.value = JSObfu::Utils::random_var_encoding(scope.rename_var(o.value))
+      o.value = JSObfu::Utils::random_var_encoding(rename_var(o.value))
     end
 
     super
@@ -67,7 +76,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   # Called whenever a variable is declared.
   def visit_VarDeclNode(o)
-    o.name = JSObfu::Utils::random_var_encoding(scope.rename_var(o.name))
+    o.name = JSObfu::Utils::random_var_encoding(rename_var(o.name))
 
     super
   end
@@ -78,7 +87,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # object (like "document"), and hence will not be obfuscated.
   #
   def visit_ResolveNode(o)
-    new_val = scope.rename_var(o.value, :generate => false)
+    new_val = rename_var(o.value, :generate => false)
     o.value = JSObfu::Utils::random_var_encoding(new_val || o.value)
 
     # Never use external referance as a random var rename
@@ -96,7 +105,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # Called when a parameter is declared. "Shadowed" parameters in the original
   # source are preserved - the randomized name is "shadowed" from the outer scope.
   def visit_ParameterNode(o)
-    o.value = JSObfu::Utils::random_var_encoding(scope.rename_var(o.value))
+    o.value = JSObfu::Utils::random_var_encoding(rename_var(o.value))
 
     super
   end
@@ -119,6 +128,13 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   def visit_StringNode(o)
     o.value = JSObfu::Utils::transform_string(o.value, scope)
     super
+  end
+
+  protected
+
+  # Assigns the var {var_name} a new obfuscated name
+  def rename_var(var_name, opts={})
+    @renames[var_name] = scope.rename_var(var_name, opts)
   end
 
 end
