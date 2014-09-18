@@ -28,9 +28,9 @@ describe JSObfu::Hoister do
     context 'when given Javascript code that declares var i, and an inner function named j' do
       let(:code) { "var i = 3; function j() { return 0x55; }" }
 
-      it 'has the key "i" in its scope' do
+      it 'has the key "i" and "j" in its scope' do
         hoister.accept(ast)
-        expect(hoister.scope.keys.sort).to eq %w(i)
+        expect(hoister.scope.keys.sort).to match_array %w(i j)
       end
     end
 
