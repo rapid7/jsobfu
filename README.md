@@ -1,3 +1,5 @@
+JSObfu [![Build Status](https://travis-ci.org/jvennix-r7/jsobfu.svg?branch=master)](https://travis-ci.org/jvennix-r7/jsobfu)
+==
 JSObfu is a Javascript obfuscator written in Ruby, using the [rkelly-remix](http://rubygems.org/gems/rkelly-remix) library. The point is to obfuscate beyond repair, by randomizing as much as possible and removing easily-signaturable string constants.
 
 ### Installation
