@@ -1,8 +1,11 @@
 require 'spec_helper'
 require 'execjs'
 
+# add environment variable flag for long integration tests
+unless ENV['INTEGRATION'] == 'false'
+
 describe 'Integrations' do
-  Dir.glob(Pathname.new(__FILE__).dirname.join('integration/*.js').to_s).each do |path|
+  Dir.glob(Pathname.new(__FILE__).dirname.join('integration/**.js').to_s).each do |path|
     js = File.read(path)
 
     if js =~ /\/\/@wip/
@@ -10,13 +13,14 @@ describe 'Integrations' do
       next
     end
 
-    5.times do
+    10.times do
       it "#{File.basename(path)} should evaluate to the same value before and after obfuscation" do
         ob_js = JSObfu.new(js).obfuscate.to_s
-        File.write('/tmp/fail.html', "<html><body><script>#{ob_js}</script></body></html>")
         expect(ob_js).to evaluate_to js
       end
     end
 
   end
+end
+
 end

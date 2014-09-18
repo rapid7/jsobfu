@@ -39,7 +39,7 @@ describe JSObfu::Utils do
     let(:charset) { described_class::ALPHA_CHARSET }
 
     # generates a new random string on every call
-    def output; JSObfu::Utils.rand_text(charset, len); end
+    def output; described_class.rand_text(charset, len); end
 
     it 'returns strings of length 15' do
       expect(n.times.map { output }.join.length).to be(n*len)
@@ -47,6 +47,44 @@ describe JSObfu::Utils do
 
     it 'returns strings in the specified charset' do
       expect(n.times.map { output }.join).to be_in_charset(charset)
+    end
+  end
+
+  describe '#to_hex' do
+    let(:str) { '' }
+    let(:delimiter) { "\\x" }
+    subject(:hex_encoding) { described_class.to_hex(str, delimiter) }
+
+    context 'when given the string "ABC"' do
+      let(:str) { 'ABC' }
+      it { should eq "\\x41\\x42\\x43" }
+
+      context 'when the delimiter is "\\u00"' do
+        let(:delimiter) { "\\u00" }
+        it { should eq "\\u0041\\u0042\\u0043" }
+      end
+    end
+
+    context 'when given an empty string' do
+      let(:str) { '' }
+      it { should eq '' }
+    end
+  end
+
+  describe '#random_var_encoding' do
+    let(:var_name) { 'ABCD' }
+    let(:initial_value) { 123 }
+    let(:preamble) { "var #{var_name} = #{initial_value}"}
+
+    def encoded_var; described_class.random_var_encoding(var_name); end
+
+    context 'when called multiple times on the same var' do
+      it 'should evaluate to the same initial value' do
+        10.times do
+          js = "(function(){ #{preamble}; return #{encoded_var}; })()"
+          expect(ExecJS.eval(js)).to eq initial_value
+        end
+      end
     end
   end
 

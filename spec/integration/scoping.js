@@ -1,11 +1,12 @@
-x=function(){
+var x=function(){
   var qq=1;
   qq+=5;
-  return 0x1234;
+  return 0x1234+f();
 }
 
+var f2 = 0;
 function f() {
-  var x=1;
+  return ++f2;
 }
 f();
 

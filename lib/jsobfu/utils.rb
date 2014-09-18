@@ -12,7 +12,11 @@ module JSObfu::Utils
   ALPHA_CHARSET = ([*'A'..'Z']+[*'a'..'z']).freeze
   ALPHANUMERIC_CHARSET = (ALPHA_CHARSET+[*'0'..'9']).freeze
 
+  # For escaping special chars in a Javascript quoted string
+  JS_ESCAPE_MAP = { '\\' => '\\\\', "\r\n" => '\n', "\n" => '\n', "\r" => '\n', '"' => '\\"', "'" => "\\'" }
+
   # Returns a random alphanumeric string of the desired length
+  #
   # @param [Integer] len the desired length
   # @return [String] random a-zA-Z0-9 text
   def self.rand_text_alphanumeric(len)
@@ -20,6 +24,7 @@ module JSObfu::Utils
   end
 
   # Returns a random alpha string of the desired length
+  #
   # @param [Integer] len the desired length
   # @return [String] random a-zA-Z text
   def self.rand_text_alpha(len)
@@ -27,11 +32,38 @@ module JSObfu::Utils
   end
 
   # Returns a random string of the desired length in the desired charset
+  #
   # @param [Array] charset the available chars
   # @param [Integer] len the desired length
   # @return [String] random text
   def self.rand_text(charset, len)
     len.times.map { charset.sample }.join
+  end
+
+  # Encodes the bytes in +str+ as hex literals, each preceded by +delimiter+
+  #
+  # @param [String] str the string to encode
+  # @param [String] delimiter prepended to every hex byte
+  # @return [String] hex encoded copy of str
+  def self.to_hex(str, delimiter="\\x")
+    str.bytes.to_a.map { |byte| delimiter+byte.to_s(16) }.join
+  end
+
+  # @param [String] code a quoted Javascript string
+  # @return [String] containing javascript code that wraps +code+ in a
+  # call to +eval+. A random eval method is chosen.
+  def self.js_eval(code)
+    code = '"' + escape_javascript(code) + '"'
+    ret_statement = random_string_encoding 'return '
+    case rand(7)
+      when 0; "eval(#{code})"
+      when 1; "[].constructor.constructor(\"#{ret_statement}\"+#{code})()"
+      when 2; "(function(){}).constructor('', \"#{ret_statement}\"+#{code})()"
+      when 3; "''.constructor.constructor('', \"#{ret_statement}\"+#{code})()"
+      when 4; "Function(\"#{random_string_encoding 'eval'}\")()(#{code})"
+      when 5; "Function(\"#{ret_statement}\"+#{code})()"
+      when 6; "Function()(\"#{ret_statement}\"+#{code})()"
+    end + ' '
   end
 
   #
@@ -53,6 +85,46 @@ module JSObfu::Utils
     end
   end
 
+  # In Javascript, it is possible to refer to the same var in a couple
+  # different ways:
+  #
+  #  var AB = 1;
+  #  console.log(\u0041\u0042); // prints "1"
+  #
+  # @return [String] equivalent variable name
+  def self.random_var_encoding(var_name)
+    if var_name.length < 3 and rand(6) == 0
+      to_hex(var_name, "\\u00")
+    else
+      var_name
+    end
+  end
+
+  # Given a Javascript string +str+ with NO escape characters, returns an
+  #  equivalent string with randomly escaped bytes
+  #
+  # @return [String] Javascript string with a randomly-selected encoding
+  # for every byte
+  def self.random_string_encoding(str)
+    encoded = ''
+    str.unpack("C*") { |c|
+      encoded << case rand(3)
+        when 0; "\\x%02x"%(c)
+        when 1; "\\#{c.to_s(8)}"
+        when 2; "\\u%04x"%(c)
+        when 3; [c].pack("C")
+      end
+    }
+    encoded
+  end
+
+  # Taken from Rails ActionView: http://api.rubyonrails.org/classes/ActionView/Helpers/JavaScriptHelper.html
+  #
+  # @return [String] +javascript+ with special chars (newlines, quotes) escaped correctly
+  def self.escape_javascript(javascript)
+    javascript.gsub(/(\|<\/|\r\n|\342\200\250|\342\200\251|[\n\r"'])/u) {|match| JS_ESCAPE_MAP[match] }
+  end
+
   #
   # Return a mathematical expression that will evaluate to the given number
   # +num+.
@@ -64,7 +136,7 @@ module JSObfu::Utils
     when Fixnum
       if num == 0
         r = rand(10) + 1
-        transformed = "('#{JSObfu::Utils.rand_text_alpha(r)}'.length - #{r})"
+        transformed = "('#{JSObfu::Utils.rand_text_alpha(r)}'.length-#{r})"
       elsif num > 0 and num < 10
         # use a random string.length for small numbers
         transformed = "'#{JSObfu::Utils.rand_text_alpha(num)}'.length"
@@ -82,7 +154,7 @@ module JSObfu::Utils
         transformed << ")"
       end
     when Float
-      transformed = "(#{num - num.floor} + #{rand_base(num.floor)})"
+      transformed = "(#{num-num.floor}+#{rand_base(num.floor)})"
     end
 
     transformed

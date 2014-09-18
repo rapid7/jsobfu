@@ -1,4 +1,5 @@
 require_relative 'utils'
+require 'set'
 
 # A single Javascript scope, used as a key-value store
 # to maintain uniqueness of members in generated closures.
@@ -73,8 +74,10 @@ class JSObfu::Scope < Hash
   # @return [String] the randomly generated replacement name
   # @return nil if generate=false and +var_name+ was not already replaced
   def rename_var(var_name, opts={})
+    return var_name if BUILTIN_VARS.include?(var_name)
+
     generate = opts.fetch(:generate, true)
-    #puts "rename_var #{var_name}" if generate
+    unresolved = opts.fetch(:unresolved, [])
     renamed = @renames[var_name]
 
     if renamed.nil? and parent
@@ -89,6 +92,22 @@ class JSObfu::Scope < Hash
     #puts "Mapped #{var_name} => #{renamed}" if renamed
 
     renamed
+  end
+
+  # @return [Boolean] scope has members
+  def empty?
+    self.keys.empty? and (parent.nil? or parent.empty?)
+  end
+
+  # @return [Boolean] scope has no parent
+  def top?
+    parent.nil?
+  end
+
+  def top
+    p = self
+    p = p.parent until p.parent.nil?
+    p
   end
 
   # Check if we've used this var before. This will also check any
