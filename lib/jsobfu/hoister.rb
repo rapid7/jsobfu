@@ -70,6 +70,7 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
 
     if @parent_scope
       keys.delete_if { |k| @parent_scope.has_key? k }
+      keys.map! { |k| @parent_scope.renames[k.to_s] || k }
     end
 
     str = if keys.empty? then '' else "var #{keys.join(",")};" end

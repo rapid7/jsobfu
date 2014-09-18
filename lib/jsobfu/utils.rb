@@ -176,11 +176,13 @@ module JSObfu::Utils
       return safe_split(str, :quote => quote).map { |arg| transform_string(arg, scope) }.join('+')
     end
 
-    case rand(2)
+    case rand(3)
     when 0
       transform_string_split_concat(str, quote, scope)
     when 1
       transform_string_fromCharCode(str)
+    when 2
+      transform_string_encoding(str)
     end
   end
 
@@ -255,6 +257,11 @@ module JSObfu::Utils
       end
     end
     esc_len
+  end
+
+  # @return [String] a randomly encoded JS string
+  def self.transform_string_encoding(str)
+    '"' + random_string_encoding(str) + '"'
   end
 
   #

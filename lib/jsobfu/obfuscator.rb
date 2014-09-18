@@ -48,10 +48,11 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     end
 
     ret = super
+    ret = hoister.scope_declaration + ret
 
     scope.pop!
-    
-    hoister.scope_declaration + ret
+
+    ret
   end
 
   def visit_FunctionDeclNode(o)
@@ -88,18 +89,21 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   #
   def visit_ResolveNode(o)
     new_val = rename_var(o.value, :generate => false)
-    o.value = JSObfu::Utils::random_var_encoding(new_val || o.value)
 
-    # Never use external referance as a random var rename
-    if o.value == ''
-      puts "EXTERNAL RENAME #{o.value}" unless new_val
+    if new_val
+      o.value = JSObfu::Utils::random_var_encoding(new_val)
+      super
+    else
+      # A global is used, at least obfuscate the lookup
+      # "window[#{JSObfu::Utils::transform_string(o.value, scope)}]"
+      super
     end
+  end
 
-    unless new_val
-      # scope.add_external(o.value)
-    end
-
-    super
+  # Called on a dot lookup, like X.Y
+  def visit_DotAccessorNode(o)
+    "#{o.value.accept(self)}[#{JSObfu::Utils::transform_string_encoding(o.accessor)}]"
+    # super
   end
 
   # Called when a parameter is declared. "Shadowed" parameters in the original
