@@ -94,11 +94,13 @@ module JSObfu::Utils
   #
   # @return [String] equivalent variable name
   def self.random_var_encoding(var_name)
-    if var_name.length < 3 and rand(6) == 0
-      to_hex(var_name, "\\u00")
-    else
-      var_name
-    end
+    # TODO: add support for this to the rkelly parser, otherwise we can't encode twice
+    # if var_name.length < 3 and rand(6) == 0
+      # to_hex(var_name, "\\u00")
+    # end
+
+    # For now, do no encoding on var names (they are randomized anyways)
+    var_name
   end
 
   # Given a Javascript string +str+ with NO escape characters, returns an
