@@ -208,9 +208,8 @@ module JSObfu::Utils
   # See #escape_length
   #
   # @param str [String] the String to split
-  # @param quote [String] the quote ("|')
   # @param opts [Hash] the options hash
-  # @options opts [String]  :quote the quoting character ("|')
+  # @option opts [String] :quote the quoting character ("|')
   #
   # @return [Array] 2d array series of [[var_name, string], ...]
   #

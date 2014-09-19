@@ -107,7 +107,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     super
   end
 
-  # A property node in an object, like {a:1, b:2, "\x55":333} etc
+  # A property node in an object "{}"
   def visit_PropertyNode(o)
     # if it is a non-alphanumeric property, obfuscate the string's bytes
     if o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
@@ -129,7 +129,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   protected
 
-  # Assigns the var {var_name} a new obfuscated name
+  # Assigns the var +var_name+ a new obfuscated name
   def rename_var(var_name, opts={})
     @renames[var_name] = scope.rename_var(var_name, opts)
   end

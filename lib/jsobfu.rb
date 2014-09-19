@@ -53,7 +53,7 @@ class JSObfu
     self
   end
 
-  # Returns the obfuscated name for the variable or function {sym}
+  # Returns the obfuscated name for the variable or function +sym+
   #
   # @param [String] sym the name of the variable or function 
   # @return [String] the obfuscated name
