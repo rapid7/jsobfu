@@ -13,10 +13,13 @@ class JSObfu
   attr_reader :scope
 
   # Saves +code+ for later obfuscation with #obfuscate
-  # @param [#to_s] code the code to obfuscate
-  def initialize(code)
+  # @param code [#to_s] the code to obfuscate
+  # @param opts [Hash] the options hash
+  # @option opts [Integer] number of times to run the obfuscator on this code (1)
+  def initialize(code, opts={})
     @code = code.to_s
     @scope = Scope.new
+    @iterations = opts.fetch(:iterations, 1).to_i
   end
 
   # Add +str+ to the un-obfuscated code.
@@ -42,13 +45,21 @@ class JSObfu
   #
   # @return [String] if successful
   def obfuscate(opts={})
-    @obfuscator = JSObfu::Obfuscator.new(scope: @scope)
-    @code = @obfuscator.accept(ast).to_s
-    if opts.fetch(:strip_whitespace, true)
-      @code.gsub!(/(^\s+|\s+$)/, '')
-      @code.delete!("\n")
-      @code.delete!("\r")
+    @iterations.times do |i|
+      @obfuscator = JSObfu::Obfuscator.new(scope: @scope)
+      @code = @obfuscator.accept(ast).to_s
+      if opts.fetch(:strip_whitespace, true)
+        @code.gsub!(/(^\s+|\s+$)/, '')
+        @code.delete!("\n")
+        @code.delete!("\r")
+      end
+
+      unless i == @iterations-1
+        @scope = Scope.new
+        @ast = nil
+      end
     end
+
     self
   end
 
