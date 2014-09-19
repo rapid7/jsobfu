@@ -7,7 +7,6 @@ class JSObfu
   require_relative 'jsobfu/utils'
   require_relative 'jsobfu/ecma_tight'
   require_relative 'jsobfu/hoister'
-  require_relative 'jsobfu/analyzer'
   require_relative 'jsobfu/obfuscator'
   require_relative 'jsobfu/encoder'
 
