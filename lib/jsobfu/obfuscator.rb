@@ -42,7 +42,6 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     end
 
     ret = super
-    ret = hoister.scope_declaration + ret
 
     scope.pop!
 
