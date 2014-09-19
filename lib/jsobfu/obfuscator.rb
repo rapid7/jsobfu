@@ -32,12 +32,6 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # introduced, which has regular C-style block scoping. We'll ignore this
   # feature since it is not yet widely used.
   def visit_SourceElementsNode(o)
-    if scope.top?
-      analysis = JSObfu::Analyzer.new
-      # analysis.accept(o.dup)
-      # analysis.external_refs.each {|ref| scope.renames[ref] = nil}
-    end
-
     scope.push!
 
     hoister = JSObfu::Hoister.new(parent_scope: scope)
@@ -95,15 +89,14 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
       super
     else
       # A global is used, at least obfuscate the lookup
-      # "window[#{JSObfu::Utils::transform_string(o.value, scope)}]"
-      super
+      "window[#{JSObfu::Utils::transform_string(o.value, scope, :quotes => false)}]"
     end
   end
 
   # Called on a dot lookup, like X.Y
   def visit_DotAccessorNode(o)
-    "#{o.value.accept(self)}[#{JSObfu::Utils::transform_string_encoding(o.accessor)}]"
-    # super
+    obf_str = JSObfu::Utils::transform_string(o.accessor, scope, :quotes => false)
+    "#{o.value.accept(self)}[(#{obf_str})]"
   end
 
   # Called when a parameter is declared. "Shadowed" parameters in the original

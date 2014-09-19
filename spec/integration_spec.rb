@@ -19,7 +19,6 @@ describe 'Integrations' do
     10.times do
       it "#{File.basename(path)} should evaluate to the same value before and after obfuscation" do
         ob_js = JSObfu.new(js).obfuscate.to_s
-        File.write('/tmp/jsobfu.js', ob_js)
         expect(ob_js).to evaluate_to js
       end
     end

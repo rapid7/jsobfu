@@ -15,7 +15,6 @@
 
   // encoder
   // [https://gist.github.com/999166] by [https://github.com/nignag]
-  object.btoa || (
   object.btoa = function (input) {
     for (
       // initialize result and counter
@@ -34,11 +33,10 @@
       block = block << 8 | charCode;
     }
     return output;
-  });
+  };
 
   // decoder
   // [https://gist.github.com/1020396] by [https://github.com/atk]
-  object.atob || (
   object.atob = function (input) {
     input = input.replace(/=+$/, '');
     if (input.length % 4 == 1) {
@@ -59,10 +57,10 @@
       buffer = chars.indexOf(buffer);
     }
     return output;
-  });
+  };
 
 }());
 
 this.test = function() {
-    return btoa("\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff");
+  return btoa("\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff\x66\u0066ffff\x67fff");
 };

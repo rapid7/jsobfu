@@ -1,5 +1,6 @@
+#
 # Some quick utility functions to minimize dependencies
-
+#
 module JSObfu::Utils
 
   #
@@ -165,24 +166,29 @@ module JSObfu::Utils
   #
   # Randomly calls one of the +transform_string_*+ methods
   #
-  def self.transform_string(str, scope)
+  # @param str [String] the string to transform
+  # @param scope [Scope] the scope to use for variable allocation
+  # @param opts [Hash] an optional options hash
+  # @option opts :quotes [Boolean] str includes quotation marks (true)
+  def self.transform_string(str, scope, opts={})
+    includes_quotes = opts.fetch(:quotes, true)
     str = str.dup
-    quote = str[0,1]
-    # pull off the quotes
-    str = str[1,str.length - 2]
-    return quote*2 if str.length == 0
+    quote = includes_quotes ? str[0,1] : '"'
+
+    if includes_quotes
+      str = str[1,str.length - 2]
+      return quote*2 if str.length == 0
+    end
 
     if str.length > MAX_STRING_CHUNK
       return safe_split(str, :quote => quote).map { |arg| transform_string(arg, scope) }.join('+')
     end
 
-    case rand(3)
+    case rand(2)
     when 0
       transform_string_split_concat(str, quote, scope)
     when 1
       transform_string_fromCharCode(str)
-    when 2
-      transform_string_encoding(str)
     end
   end
 
@@ -257,11 +263,6 @@ module JSObfu::Utils
       end
     end
     esc_len
-  end
-
-  # @return [String] a randomly encoded JS string
-  def self.transform_string_encoding(str)
-    '"' + random_string_encoding(str) + '"'
   end
 
   #

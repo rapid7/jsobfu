@@ -1,3 +1,5 @@
+require 'json'
+
 RSpec::Matchers.define :evaluate_to do |expected|
   match do |observed|
     begin
@@ -20,6 +22,10 @@ RSpec::Matchers.define :evaluate_to do |expected|
     end
 
     unless @bail
+      if @observed_output != @expected_output
+        # @observed_output = JSON.parse("{\"a\":\"#{@observed_output}\"}")['a']
+        File.write("/tmp/jsobfu.js", observed)
+      end
       expect(@observed_output).to eq @expected_output
     end
   end
@@ -28,13 +34,12 @@ RSpec::Matchers.define :evaluate_to do |expected|
     if @example_failed
       "runtime error while evaluating:\n\n#{expected}\n\n#{@example_failed}"
     elsif @compiled_failed
-      File.write('/tmp/fail'+Time.now.to_i.to_s+'.js', observed)
       "runtime error while evaluating:\n\n#{observed}\n\n#{@compiled_failed}"      
     elsif @output_nil
       "output was nil:\n\nexpected: #{@expected_output}\n\nobserved: #{@observed_output}"
     else
-      "expected that the code:\n\n#{observed}:\n\n=> #{@expected_output}\n\n"+
-      "evaluate to the same result as :\n\n#{expected}\n\n=> #{@observed_output}"
+      "expected that the code:\n\n#{expected}:\n\n=> #{@expected_output}\n\n"+
+      "evaluate to the same result as :\n\n#{observed}\n\n=> #{@observed_output}"
     end
   end
 end
