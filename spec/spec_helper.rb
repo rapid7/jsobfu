@@ -1,6 +1,6 @@
 require 'rubygems'
 require 'bundler'
-require 'minitest/autorun' # why do i need this..?
+
 Bundler.require(:default, :test)
 
 # add project lib directory to load path
