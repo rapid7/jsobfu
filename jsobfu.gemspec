@@ -1,13 +1,20 @@
-Gem::Specification.new do |s|
-  s.name          = 'jsobfu'
-  s.version       = '0.0.1'
-  s.date          = '2014-04-09'
-  s.summary       = "A Javascript code obfuscator"
-  s.authors       = ["James Lee", "Joe Vennix"]
-  s.email         = 'joev@metasploit.com'
-  s.files         = `git ls-files`.split($/).reject { |file| file !~ /\.rb$/ }
-  s.test_files    = `git ls-files -- {test,spec,features}/*`.split($/).reject { |file| file !~ /\.rb$/ }
-  s.require_paths = ['lib']
-  s.homepage      = 'http://rubygems.org/gems/jsobfu'
-  s.license       = 'BSD'
+Gem::Specification.new do |spec|
+  spec.name          = 'jsobfu'
+  spec.version       = '0.0.1'
+  spec.date          = '2014-04-09'
+  spec.summary       = "A Javascript code obfuscator"
+  spec.authors       = ["James Lee", "Joe Vennix"]
+  spec.email         = 'joev@metasploit.com'
+  spec.files         = `git ls-files`.split($/).reject { |f| f !~ /\.rb$/ }
+  spec.test_files    = `git ls-files -- {spec}/*`.split($/).reject { |f| f !~ /\.rb$/ }
+  spec.require_paths = ['lib']
+  spec.homepage      = 'https://github.com/jvennix-r7/jsobfu'
+  spec.license       = 'BSD'
+
+  spec.add_runtime_dependency 'rkelly-remix', '~> 0.0.6'
+
+  spec.add_development_dependency 'rspec', '~> 3.1'
+  spec.add_development_dependency 'simplecov'
+  spec.add_development_dependency 'execjs'
+  spec.add_development_dependency 'rake'
 end

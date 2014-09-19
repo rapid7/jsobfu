@@ -98,14 +98,14 @@ describe JSObfu::Utils do
       context 'when given a double-quote' do
         let(:quote) { '"' }
         it 'surrounds all the split strings with the same quote' do
-          expect(parts.flatten.all? { |part| part.start_with?(quote) }).to be_true
+          expect(parts.flatten.all? { |part| part.start_with?(quote) }).to be true
         end
       end
 
       context 'when given a single-quote' do
         let(:quote) { "'" }
         it 'surrounds all the split strings with the same quote' do
-          expect(parts.flatten.all? { |part| part.start_with?(quote) }).to be_true
+          expect(parts.flatten.all? { |part| part.start_with?(quote) }).to be true
         end
       end
     end
@@ -115,7 +115,7 @@ describe JSObfu::Utils do
         let(:js_string) { "\\x66\\x67"*600 }
 
         it 'never splits in the middle of a hex escape' do
-          expect(parts.flatten.all? { |part| part.start_with?('"\\') }).to be_true
+          expect(parts.flatten.all? { |part| part.start_with?('"\\') }).to be true
         end
       end
 
@@ -123,7 +123,7 @@ describe JSObfu::Utils do
         let(:js_string) { "\\u0066\\u0067"*600 }
 
         it 'never splits in the middle of a unicode escape' do
-          expect(parts.flatten.all? { |part| part.start_with?('"\\') }).to be_true
+          expect(parts.flatten.all? { |part| part.start_with?('"\\') }).to be true
         end
       end
     end

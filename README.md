@@ -80,7 +80,7 @@ Then open [http://localhost:9999](http://localhost:9999) in your browser.
 
 ### Running specs
 
-    $ rspec
+    $ rake spec
 
 To run without integration specs, set `INTEGRATION=false` as an environment variable.
 

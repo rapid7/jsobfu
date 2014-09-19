@@ -22,15 +22,11 @@ RSpec::Matchers.define :evaluate_to do |expected|
     end
 
     unless @bail
-      if @observed_output != @expected_output
-        # @observed_output = JSON.parse("{\"a\":\"#{@observed_output}\"}")['a']
-        File.write("/tmp/jsobfu.js", observed)
-      end
       expect(@observed_output).to eq @expected_output
     end
   end
 
-  failure_message_for_should do |observed|
+  failure_message do |observed|
     if @example_failed
       "runtime error while evaluating:\n\n#{expected}\n\n#{@example_failed}"
     elsif @compiled_failed
