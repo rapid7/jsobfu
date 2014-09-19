@@ -53,11 +53,11 @@ module JSObfu::Utils
   # @param [String] code a quoted Javascript string
   # @return [String] containing javascript code that wraps +code+ in a
   # call to +eval+. A random eval method is chosen.
-  def self.js_eval(code)
+  def self.js_eval(code, scope)
     code = '"' + escape_javascript(code) + '"'
     ret_statement = random_string_encoding 'return '
     case rand(7)
-      when 0; "eval(#{code})"
+      when 0; "window[#{transform_string('eval', scope, :quotes => false)}](#{code})"
       when 1; "[].constructor.constructor(\"#{ret_statement}\"+#{code})()"
       when 2; "(function(){}).constructor('', \"#{ret_statement}\"+#{code})()"
       when 3; "''.constructor.constructor('', \"#{ret_statement}\"+#{code})()"
