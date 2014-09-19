@@ -12,6 +12,10 @@ Or, to install JSObfu on to your system, run:
 
     $ gem install jsobfu
 
+### Documentation
+
+Generated documentation is hosted [on Github](http://jvennix-r7.github.io/jsobfu/doc/).
+
 ### Example Usage
 
 Obfuscating a Javascript string in ruby:
