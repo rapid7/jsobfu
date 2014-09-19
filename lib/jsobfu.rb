@@ -14,13 +14,9 @@ class JSObfu
 
   # Saves +code+ for later obfuscation with #obfuscate
   # @param code [#to_s] the code to obfuscate
-  # @param opts [Hash] the options hash
-  # @option opts [Integer] :iterations number of times to run the
-  #   obfuscator on this code (1)
-  def initialize(code, opts={})
+  def initialize(code)
     @code = code.to_s
     @scope = Scope.new
-    @iterations = opts.fetch(:iterations, 1).to_i
   end
 
   # Add +str+ to the un-obfuscated code.
@@ -42,22 +38,38 @@ class JSObfu
   # Parse and obfuscate
   #
   # @param opts [Hash] the options hash
-  # @option opts [Boolean] :strip_whitespace allow whitespace in the output code
-  #
+  # @option opts [Boolean] :strip_whitespace removes unnecessary whitespace from
+  #   the output code (true)
+  # @option opts [Integer] :iterations number of times to run the
+  #   obfuscator on this code (1)
   # @return [String] if successful
   def obfuscate(opts={})
-    @iterations.times do |i|
-      @obfuscator = JSObfu::Obfuscator.new(scope: @scope)
-      @code = @obfuscator.accept(ast).to_s
-      if opts.fetch(:strip_whitespace, true)
+    iterations = opts.fetch(:iterations, 1).to_i
+    strip_whitespace = opts.fetch(:strip_whitespace, true)
+
+    iterations.times do |i|
+      obfuscator = JSObfu::Obfuscator.new(scope: @scope)
+      @code = obfuscator.accept(ast).to_s
+      if strip_whitespace
         @code.gsub!(/(^\s+|\s+$)/, '')
         @code.delete!("\n")
         @code.delete!("\r")
       end
 
-      unless i == @iterations-1
+      new_renames = obfuscator.renames.dup
+      if @renames
+        # "patch up" the renames after each iteration
+        @renames.each do |key, prev_rename|
+          @renames[key] = new_renames[prev_rename]
+        end
+      else
+        # on first iteration, take the renames as-is
+        @renames = new_renames
+      end
+
+      unless i == iterations-1
         @scope = Scope.new
-        @ast = nil
+        @ast = nil # force a re-parse
       end
     end
 
@@ -69,8 +81,8 @@ class JSObfu
   # @param [String] sym the name of the variable or function 
   # @return [String] the obfuscated name
   def sym(sym)
-    raise RuntimeError, "Must obfuscate before calling #sym" if @obfuscator.nil?
-    @obfuscator.renames[sym.to_s]
+    raise RuntimeError, "Must obfuscate before calling #sym" if @renames.nil?
+    @renames[sym.to_s]
   end
 
 protected
