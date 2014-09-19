@@ -62,10 +62,15 @@ Encode from the command line:
 
     $ cat source.js | ruby -r jsobfu -e "puts JSObfu.new(STDIN.read).obfuscate"
 
-### Generating documentation
+### Development Environment
+
+Setting up is easy:
 
     $ cd jsobfu
     $ bundle install
+
+### Generating documentation
+
     $ yard
     $ cd doc; python -m SimpleHttpServer 9999
 
@@ -73,7 +78,6 @@ Then open [http://localhost:9999](http://localhost:9999) in your browser.
 
 ### Running specs
 
-    $ cd jsobfu
     $ rspec
 
 To run without integration specs, set `INTEGRATION=false` as an environment variable.
