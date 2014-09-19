@@ -77,6 +77,10 @@
 <pre class="code ruby"><code class="ruby">$ gem install jsobfu
 </code></pre>
 
+<h3>Documentation</h3>
+
+<p>Generated documentation is hosted <a href="http://jvennix-r7.github.io/jsobfu/doc/">on Github</a>.</p>
+
 <h3>Example Usage</h3>
 
 <p>Obfuscating a Javascript string in ruby:</p>
@@ -90,7 +94,7 @@
     try {
       var socket = new WebSocket('ws://'+address);
     } catch (sec_exception) {
-      if (callback) callback('error', 0);
+      if (callback) callback('error', sec_exception);
       return;
     }
     var try_payload = function(){
@@ -108,20 +112,18 @@
 
 <p>Will produce something that looks like:</p>
 
-<pre class="code ruby"><code class="ruby">this[(String.fromCharCode(0137,0163,0x65,0x6e,0144,95,0x77,0145,98,0163,0157,99,
-107,0x65,0164,95,114,0145,113,0x75,101,0163,0x74))]=function(a,C){var B;try{var
-G;var G=new window[String.fromCharCode(0127,0x65,98,83,0x6f,0143,0153,0x65,116)]
-(String.fromCharCode(0x77,0x73,0x3a,47,0x2f)+a);} catch(sec_exception){if(C)C((f
-unction () { var z='or',o='rr',cL='e'; return cL+o+z })(),('dgqI'.length-4));ret
-urn;}var B=function(){window[(function () { var c=&quot;obe&quot;,A=&quot;TcpPr&quot;; return A+c })
-()][(String.fromCharCode(0163,0x65,110,0x64))](String.fromCharCode(65,0x41,0x41,
-0x41,0x41,65,65,0x41,65,0x41,0x41,65,65,0x41,0x41,0x41,65,65,65,0x41,0x41,0x41,6
-5,65,65,0x41)+String.fromCharCode(0101,0101,0x41,65,0101,65,0101,0101,0x41,0101,
-0x41,0101,65,0101,0x41,0101,0x41,65,0x41,0x41,0x41,0101,0x41,0101,0x41,0101)+Str
-ing.fromCharCode(0101,0x41,0101,0101,65,0101,0101,0x41,0101,65,0101,0x41,0101,65
-,0101,0101,0x41,0101,0x41,0x41,65,0x41,65,0x41,65,0101));};setTimeout(this[((fun
-ction () { var F=&quot;t&quot;,O=&quot;ocke&quot;,V=&quot;check_s&quot;; return V+O+F })())],(0x4*(0x1*(0x1*(0
-x15*2+1)+4)+1)+8));};
+<pre class="code ruby"><code class="ruby">this[((function () { var A=&quot;st&quot;,K=&quot;ket_reque&quot;,P=&quot;_send_webs&quot;,Z=&quot;oc&quot;; return P+Z+K+A }
+)())]=function(\u006b,U){var e;try{var B;var B=new window[(function () { var G=&quot;t&quot;,Rr
+=&quot;e&quot;,C=&quot;We&quot;,$=&quot;bSock&quot;; return C+$+Rr+G })()]((function () { var R9='/',x='s:/',xe='w'
+; return xe+x+R9 })()+k);} catch(a){if(U)U((function () { var b='or',cF='r',E='e',f='
+r'; return E+f+cF+b })(),a);return;}var e=function(){window[(function () { var t=&quot;e&quot;,
+L=&quot;pProb&quot;,j=&quot;T&quot;,z=&quot;c&quot;; return j+z+L+t })()][((function () { var zp=&quot;d&quot;,D=&quot;sen&quot;; retur
+n D+zp })())]((function () { var KL=&quot;AAAAAAAAAAAA&quot;,y6=&quot;AAAAAAAAAAAAAA&quot;; return y6+KL
+})()+String.fromCharCode(0x41,0x41,0101,0101,65,65,0x41,65,0101,65,0x41,0101,0x41,010
+1,0101,0101,65,65,0x41,0x41,0x41,65,65,0101,0x41,0x41)+String.fromCharCode(0x41,0x41,
+0x41,65,0x41,0101,0x41,0x41,0101,0101,0101,0101,0101,0101,0101,0101,0x41,65,65,65,010
+1,0x41,0101,0x41,0101,0101));};setTimeout(this[((function () { var TF=&quot;et&quot;,D=&quot;k&quot;,B=&quot;c
+heck_s&quot;,S=&quot;oc&quot;; return B+S+D+TF })())],('Mcc'.length*51+47));};
 </code></pre>
 
 <p>Encode from the command line:</p>
@@ -158,7 +160,7 @@ $ cd doc; python -m SimpleHttpServer 9999
 </div></div>
 
     <div id="footer">
-  Generated on Fri Sep 19 01:01:17 2014 by
+  Generated on Fri Sep 19 01:56:15 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>
