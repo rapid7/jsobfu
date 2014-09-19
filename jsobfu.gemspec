@@ -9,7 +9,7 @@ Gem::Specification.new do |spec|
   spec.test_files    = `git ls-files -- {spec}/*`.split($/).reject { |f| f !~ /\.rb$/ }
   spec.require_paths = ['lib']
   spec.homepage      = 'https://github.com/rapid7/jsobfu'
-  spec.license       = 'BSD'
+  spec.license       = 'BSD-3-Clause'
 
   spec.add_runtime_dependency 'rkelly-remix', '~> 0.0.6'
 

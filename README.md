@@ -86,4 +86,4 @@ To run without integration specs, set `INTEGRATION=false` as an environment vari
 
 ### License
 
-[BSD](http://opensource.org/licenses/BSD-3-Clause)
+[BSD-3-Clause](http://opensource.org/licenses/BSD-3-Clause)
