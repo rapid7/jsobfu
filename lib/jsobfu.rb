@@ -15,7 +15,8 @@ class JSObfu
   # Saves +code+ for later obfuscation with #obfuscate
   # @param code [#to_s] the code to obfuscate
   # @param opts [Hash] the options hash
-  # @option opts [Integer] number of times to run the obfuscator on this code (1)
+  # @option opts [Integer] :iterations number of times to run the
+  #   obfuscator on this code (1)
   def initialize(code, opts={})
     @code = code.to_s
     @scope = Scope.new
