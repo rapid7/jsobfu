@@ -13,10 +13,16 @@ describe 'Integrations' do
       next
     end
 
+    num = 10
+
+    if js =~ /\/\/@times (\d+)/
+      num = $1.to_i
+    end
+
     # ensure there is a global object to reference.
     js = "window=this; #{js}"
 
-    10.times do
+    num.times do
       it "#{File.basename(path)} should evaluate to the same value before and after obfuscation" do
         ob_js = JSObfu.new(js).obfuscate.to_s
         expect(ob_js).to evaluate_to js

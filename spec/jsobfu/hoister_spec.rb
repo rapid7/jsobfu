@@ -28,6 +28,8 @@ describe JSObfu::Hoister do
     context 'when given Javascript code that declares var i, and an inner function named j' do
       let(:code) { "var i = 3; function j() { return 0x55; }" }
 
+      # TODO: this should really only put j in scope, but it ends up not causing
+      # any problems.
       it 'has the key "i" and "j" in its scope' do
         hoister.accept(ast)
         expect(hoister.scope.keys.sort).to match_array %w(i j)

@@ -9,5 +9,5 @@ Gem::Specification.new do |s|
   s.test_files    = `git ls-files -- {test,spec,features}/*`.split($/).reject { |file| file !~ /\.rb$/ }
   s.require_paths = ['lib']
   s.homepage      = 'http://rubygems.org/gems/jsobfu'
-  s.license       = 'MIT'
+  s.license       = 'BSD'
 end
