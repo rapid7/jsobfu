@@ -4,65 +4,54 @@ JSObfu is a Javascript obfuscator written in Ruby, using the [rkelly-remix](http
 
 ### Installation
 
-Just add the following line to your Gemfile:
+To use JSObfu in your project, just add the following line to your Gemfile:
 
-```
-gem 'jsobfu'
-```
+    gem 'jsobfu'
+
+Or, to install JSObfu on to your system, run:
+
+    $ gem install jsobfu
 
 ### Example Usage
 
 Obfuscating a Javascript string in ruby:
 
-```
-require 'jsobfu'
+    require 'jsobfu'
 
-source = %Q|
-  // some sample javascript code, to demonstrate usage:
-  this._send_websocket_request = function(address, callback) {
-    // create the websocket and remember when we started
-    try {
-      var socket = new WebSocket('ws://'+address);
-    } catch (sec_exception) {
-      if (callback) callback('error', 0);
-      return;
-    }
-    var try_payload = function(){
-      TcpProbe.send("\x12\x12\x12\x12\x12\x12\x12\x12\x12"+
-                    "\x12\x12\x12\x12\x12\x12\x12\x12\x12"+
-                    "\x12\x12\x12\x12\x12\x12\x12\x12\x12");
-    }
-    // wait a sec, then start the checks
-    setTimeout(check_socket, WS_CHECK_INTERVAL);
-  };
-|
+    source = %Q|
+      // some sample javascript code, to demonstrate usage:
+      this.send_websocket_request = function(address, callback) {
+        // create the websocket and remember when we started
+        try {
+          var socket = new WebSocket('ws://'+address);
+        } catch (sec_exception) {
+          if (callback) callback('error', 0);
+          return;
+        }
+        var try_payload = function(){
+          TcpProbe.send("AAAAAAAAAAAAAAAAAAAAAAAAAA"+
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAA"+
+                        "AAAAAAAAAAAAAAAAAAAAAAAAAA");
+        }
+        // wait a sec, then start the checks
+        setTimeout(check_socket, WS_CHECK_INTERVAL);
+      };
+    |
 
-puts JSObfu.new(source).obfuscate
-```
+    puts JSObfu.new(source).obfuscate
 
-Will produce the following output:
+Will produce something that looks like:
 
-```
-this._send_websocket_request = function(X, _) {try {var z = new WebSocket(String.fromCharCode(119,
-0x73,072,0x2f,057) + X);} catch(sec_exception) {if(_) _((function () { var w='r',Y='rro',h='e'; r
-eturn h+Y+w })(), ('twagi'.length - 5));return;}var o = function() {TcpProbe.send(String.fromChar
-Code(0x12,0x12,0x12,022,18,022,18,18,18) + String.fromCharCode(18,022,022,18,022,18,022,022,18) +
-(function () { var mQ="",E=""; return E+mQ })());};setTimeout(this.check_socket, ('xcx'.length*(0
-1*0x1d+28)+29));};
-```
+    this[(String.fromCharCode(0x5f,0163,0145,110,0x64,0137,0167,101,98,115,0x6f,99,0153,0x65,116,95,114,0145,0161,0x75,101,0163,0x74))]=function(l,\u0076){var q;try{var I;var I=new window[(function () { var $="ket",e="oc",t="WebS"; return t+e+$ })()](String.fromCharCode(0x77,0x73,58,0x2f,0x2f)+\u006c);} catch(sec_exception){if(v)v(String.fromCharCode(101,0x72,0x72,0x6f,0162),('tN'.length-2));return;}var q=function(){window[(function () { var m="robe",U="P",H="Tcp"; return H+U+m })()][(String.fromCharCode(115,0145,0156,0x64))](String.fromCharCode(65,65,65,0101,0x41,0101,0101,0x41,65,0x41,65,0101,0x41,0101,0101,0101,0x41,0101,0101,0101,0x41,65,65,0101,65,0101)+String.fromCharCode(0101,65,65,65,0x41,65,65,0101,0101,65,65,0101,0x41,0101,0x41,65,0101,0x41,65,65,65,65,0x41,65,0x41,0x41)+(function () { var t="AAAAAAAAAAAA",S="AAAAAAAAAAAAAA"; return S+t })());};setTimeout(this[((function () { var P="et",s="ock",U="check_s"; return U+s+P })())],('NE'.length*('vGo'.length*('p'.length*(('O'.length*0xc+3)*01+0)+6)+7)+60));};
 
 Encode from the command line:
 
-```
-$ cat source.js | ruby -r jsobfu -e "puts JSObfu.new(STDIN.read).obfuscate"
-```
+    $ cat source.js | ruby -r jsobfu -e "puts JSObfu.new(STDIN.read).obfuscate"
 
 ### Running specs
 
-```
-$ cd jsobfu
-$ rspec
-```
+    $ cd jsobfu
+    $ rspec
 
 To run without integration specs, set `INTEGRATION=false` as an environment variable.
 

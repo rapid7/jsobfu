@@ -14,9 +14,9 @@ source = %Q|
       return;
     }
     var try_payload = function(){
-      TcpProbe.send("\x12\x12\x12\x12\x12\x12\x12\x12\x12"+
-                    "\x12\x12\x12\x12\x12\x12\x12\x12\x12"+
-                    "\x12\x12\x12\x12\x12\x12\x12\x12\x12");
+      TcpProbe.send("AAAAAAAAAAAAAAAAAAAAAAAAAA"+
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAA"+
+                    "AAAAAAAAAAAAAAAAAAAAAAAAAA");
     }
     // wait a sec, then start the checks
     setTimeout(this.check_socket, 200);
