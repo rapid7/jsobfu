@@ -24,7 +24,7 @@ describe 'Integrations' do
 
     num.times do
       it "#{File.basename(path)} should evaluate to the same value before and after obfuscation" do
-        ob_js = JSObfu.new(js, iterations: 2).obfuscate.to_s
+        ob_js = JSObfu.new(js).obfuscate(iterations: 2).to_s
         expect(ob_js).to evaluate_to js
       end
     end
