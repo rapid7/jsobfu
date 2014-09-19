@@ -13,8 +13,9 @@ class JSObfu
   attr_reader :scope
 
   # Saves +code+ for later obfuscation with #obfuscate
+  # @param [#to_s] code the code to obfuscate
   def initialize(code)
-    @code = code
+    @code = code.to_s
     @scope = Scope.new
   end
 
