@@ -29,7 +29,7 @@ describe JSObfu::Scope do
       let(:generated) { [reserved, reserved, reserved, random] }
 
       before do
-        scope.stub(:random_string) { generated.shift }
+        allow(scope).to receive(:random_string) { generated.shift }
       end
 
       it { should eq random }
@@ -41,7 +41,7 @@ describe JSObfu::Scope do
       let(:generated)   { [preexisting, preexisting, preexisting, random] }
 
       before do
-        scope.stub(:random_string) { generated.shift }
+        allow(scope).to receive(:random_string) { generated.shift }
         scope[preexisting] = 1
       end
 

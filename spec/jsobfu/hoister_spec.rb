@@ -51,7 +51,7 @@ describe JSObfu::Hoister do
 
   describe "#scope_declaration" do
     context 'when scope has the keys "a", "b", and "c"' do
-      before { hoister.stub(:scope).and_return({a:1,b:2,c:3}) }
+      before { allow(hoister).to receive(:scope).and_return({a:1,b:2,c:3}) }
 
       it 'returns the string "var a,b,c"' do
         expect(hoister.scope_declaration(shuffle: false)).to eq "var a,b,c;"
@@ -59,7 +59,7 @@ describe JSObfu::Hoister do
     end
 
     context 'when the scope is empty' do
-      before { hoister.stub(:scope).and_return({}) }
+      before { allow(hoister).to receive(:scope).and_return({}) }
       it 'returns ""' do
         expect(hoister.scope_declaration(shuffle: false)).to eq ""
       end
