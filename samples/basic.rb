@@ -10,7 +10,7 @@ source = %Q|
     try {
       var socket = new WebSocket('ws://'+address);
     } catch (sec_exception) {
-      if (callback) callback('error', 0);
+      if (callback) callback('error', sec_exception);
       return;
     }
     var try_payload = function(){

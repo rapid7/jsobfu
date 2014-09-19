@@ -12,6 +12,10 @@ Or, to install JSObfu on to your system, run:
 
     $ gem install jsobfu
 
+### Documentation
+
+Generated documentation is hosted [on Github](http://jvennix-r7.github.io/jsobfu/doc/).
+
 ### Example Usage
 
 Obfuscating a Javascript string in ruby:
@@ -25,7 +29,7 @@ Obfuscating a Javascript string in ruby:
         try {
           var socket = new WebSocket('ws://'+address);
         } catch (sec_exception) {
-          if (callback) callback('error', 0);
+          if (callback) callback('error', sec_exception);
           return;
         }
         var try_payload = function(){
@@ -42,20 +46,18 @@ Obfuscating a Javascript string in ruby:
 
 Will produce something that looks like:
 
-    this[(String.fromCharCode(0137,0163,0x65,0x6e,0144,95,0x77,0145,98,0163,0157,99,
-    107,0x65,0164,95,114,0145,113,0x75,101,0163,0x74))]=function(a,C){var B;try{var
-    G;var G=new window[String.fromCharCode(0127,0x65,98,83,0x6f,0143,0153,0x65,116)]
-    (String.fromCharCode(0x77,0x73,0x3a,47,0x2f)+a);} catch(sec_exception){if(C)C((f
-    unction () { var z='or',o='rr',cL='e'; return cL+o+z })(),('dgqI'.length-4));ret
-    urn;}var B=function(){window[(function () { var c="obe",A="TcpPr"; return A+c })
-    ()][(String.fromCharCode(0163,0x65,110,0x64))](String.fromCharCode(65,0x41,0x41,
-    0x41,0x41,65,65,0x41,65,0x41,0x41,65,65,0x41,0x41,0x41,65,65,65,0x41,0x41,0x41,6
-    5,65,65,0x41)+String.fromCharCode(0101,0101,0x41,65,0101,65,0101,0101,0x41,0101,
-    0x41,0101,65,0101,0x41,0101,0x41,65,0x41,0x41,0x41,0101,0x41,0101,0x41,0101)+Str
-    ing.fromCharCode(0101,0x41,0101,0101,65,0101,0101,0x41,0101,65,0101,0x41,0101,65
-    ,0101,0101,0x41,0101,0x41,0x41,65,0x41,65,0x41,65,0101));};setTimeout(this[((fun
-    ction () { var F="t",O="ocke",V="check_s"; return V+O+F })())],(0x4*(0x1*(0x1*(0
-    x15*2+1)+4)+1)+8));};
+    this[((function () { var A="st",K="ket_reque",P="_send_webs",Z="oc"; return P+Z+K+A }
+    )())]=function(\u006b,U){var e;try{var B;var B=new window[(function () { var G="t",Rr
+    ="e",C="We",$="bSock"; return C+$+Rr+G })()]((function () { var R9='/',x='s:/',xe='w'
+    ; return xe+x+R9 })()+k);} catch(a){if(U)U((function () { var b='or',cF='r',E='e',f='
+    r'; return E+f+cF+b })(),a);return;}var e=function(){window[(function () { var t="e",
+    L="pProb",j="T",z="c"; return j+z+L+t })()][((function () { var zp="d",D="sen"; retur
+    n D+zp })())]((function () { var KL="AAAAAAAAAAAA",y6="AAAAAAAAAAAAAA"; return y6+KL
+    })()+String.fromCharCode(0x41,0x41,0101,0101,65,65,0x41,65,0101,65,0x41,0101,0x41,010
+    1,0101,0101,65,65,0x41,0x41,0x41,65,65,0101,0x41,0x41)+String.fromCharCode(0x41,0x41,
+    0x41,65,0x41,0101,0x41,0x41,0101,0101,0101,0101,0101,0101,0101,0101,0x41,65,65,65,010
+    1,0x41,0101,0x41,0101,0101));};setTimeout(this[((function () { var TF="et",D="k",B="c
+    heck_s",S="oc"; return B+S+D+TF })())],('Mcc'.length*51+47));};
 
 
 Encode from the command line:

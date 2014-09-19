@@ -127,6 +127,13 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     super
   end
 
+  def visit_TryNode(o)
+    if o.catch_block
+      o.instance_variable_set :@catch_var, rename_var(o.catch_var)
+    end
+    super
+  end
+
   protected
 
   # Assigns the var +var_name+ a new obfuscated name
