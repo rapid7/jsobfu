@@ -32,7 +32,12 @@ describe JSObfu::Hoister do
       # any problems.
       it 'has the key "i" and "j" in its scope' do
         hoister.accept(ast)
-        expect(hoister.scope.keys.sort).to match_array %w(i j)
+        expect(hoister.scope.keys).to match_array %w(i j)
+      end
+
+      it 'has the key "j" in its #functions' do
+        hoister.accept(ast)
+        expect(hoister.functions).to match_array %w(j)
       end
     end
 

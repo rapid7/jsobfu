@@ -8,6 +8,9 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
   # @return [Hash] the scope maintained while walking the ast
   attr_reader :scope
 
+  # @return [Array<String>] the function names in the first level of this closure
+  attr_reader :functions
+
   def initialize(opts={})
     @parent_scope = opts.fetch(:parent_scope, nil)
     @max_depth  = 1
@@ -29,7 +32,7 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
     scope[o.name] = o
   end
 
-  def visit_FunctionDeclNode(o)
+  def visit_FunctionDeclNode(o)    
     @functions << o.value
     scope[o.value] = o
   end
@@ -65,7 +68,7 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
     if opts.fetch(:shuffle, true)
       keys = keys.shuffle
     end
-    
+
     keys.delete_if { |k| @functions.include? k }
 
     if @parent_scope
