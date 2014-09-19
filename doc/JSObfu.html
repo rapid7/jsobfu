@@ -365,7 +365,27 @@
   </div>
 </div>
 <div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
   
+    <li>
+      
+        <span class='name'>code</span>
+      
+      
+        <span class='type'>(<tt>#to_s</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the code to obfuscate</p>
+</div>
+      
+    </li>
+  
+</ul>
+
 
 </div><table class="source_code">
   <tr>
@@ -373,16 +393,16 @@
       <pre class="lines">
 
 
-16
 17
 18
-19</pre>
+19
+20</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 16</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 17</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_code'>code</span><span class='rparen'>)</span>
-  <span class='ivar'>@code</span> <span class='op'>=</span> <span class='id identifier rubyid_code'>code</span>
+  <span class='ivar'>@code</span> <span class='op'>=</span> <span class='id identifier rubyid_code'>code</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='const'>Scope</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -490,12 +510,12 @@
       <pre class="lines">
 
 
-23
 24
-25</pre>
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 23</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 24</span>
 
 <span class='kw'>def</span> <span class='op'>&lt;&lt;</span><span class='lparen'>(</span><span class='id identifier rubyid_str'>str</span><span class='rparen'>)</span>
   <span class='ivar'>@code</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_str'>str</span>
@@ -549,12 +569,12 @@
       <pre class="lines">
 
 
-33
 34
-35</pre>
+35
+36</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 33</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 34</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ast'>ast</span>
   <span class='ivar'>@ast</span> <span class='op'>||</span> <span class='id identifier rubyid_parse'>parse</span>
@@ -652,7 +672,6 @@
       <pre class="lines">
 
 
-43
 44
 45
 46
@@ -661,10 +680,11 @@
 49
 50
 51
-52</pre>
+52
+53</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 43</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 44</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_obfuscate'>obfuscate</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@obfuscator</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Obfuscator</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>scope:</span> <span class='ivar'>@scope</span><span class='rparen'>)</span>
@@ -707,13 +727,13 @@
       <pre class="lines">
 
 
-68
 69
 70
-71</pre>
+71
+72</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 68</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 69</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span>
   <span class='id identifier rubyid_parser'>parser</span> <span class='op'>=</span> <span class='const'>RKelly</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -801,13 +821,13 @@
       <pre class="lines">
 
 
-58
 59
 60
-61</pre>
+61
+62</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 58</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 59</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_sym'>sym</span><span class='lparen'>(</span><span class='id identifier rubyid_sym'>sym</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>RuntimeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Must obfuscate before calling #sym</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='ivar'>@obfuscator</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
@@ -862,12 +882,12 @@
       <pre class="lines">
 
 
-28
 29
-30</pre>
+30
+31</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 28</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu.rb', line 29</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@code</span>
@@ -882,7 +902,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Sep 19 13:29:35 2014 by
+  Generated on Fri Sep 19 14:17:57 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>
