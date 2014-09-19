@@ -1,0 +1,699 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: JSObfu::Analyzer
+  
+    &mdash; Documentation by YARD 0.8.7.4
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!JSObfu/Analyzer.html";
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../JSObfu.html" title="JSObfu (class)">JSObfu</a></span></span>
+     &raquo; 
+    <span class="title">Analyzer</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: JSObfu::Analyzer
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="ECMANoWhitespaceVisitor.html" title="JSObfu::ECMANoWhitespaceVisitor (class)">ECMANoWhitespaceVisitor</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">RKelly::Visitors::ECMAVisitor</li>
+          
+            <li class="next"><span class='object_link'><a href="ECMANoWhitespaceVisitor.html" title="JSObfu::ECMANoWhitespaceVisitor (class)">ECMANoWhitespaceVisitor</a></span></li>
+          
+            <li class="next">JSObfu::Analyzer</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/jsobfu/analyzer.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#external_refs-instance_method" title="#external_refs (instance method)">- (Object) <strong>external_refs</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute external_refs.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#scope-instance_method" title="#scope (instance method)">- (Object) <strong>scope</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Returns the value of attribute scope.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Analyzer) <strong>initialize</strong> </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A new instance of Analyzer.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#visit_ParameterNode-instance_method" title="#visit_ParameterNode (instance method)">- (Object) <strong>visit_ParameterNode</strong>(o) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Called when a parameter is declared.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#visit_ResolveNode-instance_method" title="#visit_ResolveNode (instance method)">- (Object) <strong>visit_ResolveNode</strong>(o) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Called whenever a variable is referred to (not declared).</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#visit_SourceElementsNode-instance_method" title="#visit_SourceElementsNode (instance method)">- (Object) <strong>visit_SourceElementsNode</strong>(o) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Maintains a stack of closures that we have visited.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#visit_VarDeclNode-instance_method" title="#visit_VarDeclNode (instance method)">- (Object) <strong>visit_VarDeclNode</strong>(o) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Called whenever a variable is declared.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="ECMANoWhitespaceVisitor.html" title="JSObfu::ECMANoWhitespaceVisitor (class)">ECMANoWhitespaceVisitor</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="ECMANoWhitespaceVisitor.html#function_params_and_body-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#function_params_and_body (method)">#function_params_and_body</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ArgumentsNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ArgumentsNode (method)">#visit_ArgumentsNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ArrayNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ArrayNode (method)">#visit_ArrayNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_AssignExprNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_AssignExprNode (method)">#visit_AssignExprNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_BitwiseNotNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_BitwiseNotNode (method)">#visit_BitwiseNotNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_BlockNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_BlockNode (method)">#visit_BlockNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_BracketAccessorNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_BracketAccessorNode (method)">#visit_BracketAccessorNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_BreakNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_BreakNode (method)">#visit_BreakNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_CaseBlockNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_CaseBlockNode (method)">#visit_CaseBlockNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_CaseClauseNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_CaseClauseNode (method)">#visit_CaseClauseNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_CommaNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_CommaNode (method)">#visit_CommaNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ConditionalNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ConditionalNode (method)">#visit_ConditionalNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ConstStatementNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ConstStatementNode (method)">#visit_ConstStatementNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ContinueNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ContinueNode (method)">#visit_ContinueNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_DeleteNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_DeleteNode (method)">#visit_DeleteNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_DoWhileNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_DoWhileNode (method)">#visit_DoWhileNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_DotAccessorNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_DotAccessorNode (method)">#visit_DotAccessorNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ElementNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ElementNode (method)">#visit_ElementNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_EmptyStatementNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_EmptyStatementNode (method)">#visit_EmptyStatementNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ExpressionStatementNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ExpressionStatementNode (method)">#visit_ExpressionStatementNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_FalseNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_FalseNode (method)">#visit_FalseNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ForInNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ForInNode (method)">#visit_ForInNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ForNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ForNode (method)">#visit_ForNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_FunctionBodyNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_FunctionBodyNode (method)">#visit_FunctionBodyNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_FunctionCallNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_FunctionCallNode (method)">#visit_FunctionCallNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_FunctionDeclNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_FunctionDeclNode (method)">#visit_FunctionDeclNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_FunctionExprNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_FunctionExprNode (method)">#visit_FunctionExprNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_GetterPropertyNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_GetterPropertyNode (method)">#visit_GetterPropertyNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_IfNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_IfNode (method)">#visit_IfNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_LabelNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_LabelNode (method)">#visit_LabelNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_LessNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_LessNode (method)">#visit_LessNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_LogicalNotNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_LogicalNotNode (method)">#visit_LogicalNotNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_NewExprNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_NewExprNode (method)">#visit_NewExprNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_NullNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_NullNode (method)">#visit_NullNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_NumberNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_NumberNode (method)">#visit_NumberNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ObjectLiteralNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ObjectLiteralNode (method)">#visit_ObjectLiteralNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_OpEqualNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_OpEqualNode (method)">#visit_OpEqualNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ParentheticalNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ParentheticalNode (method)">#visit_ParentheticalNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_PostfixNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_PostfixNode (method)">#visit_PostfixNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_PrefixNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_PrefixNode (method)">#visit_PrefixNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_PropertyNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_PropertyNode (method)">#visit_PropertyNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_RegexpNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_RegexpNode (method)">#visit_RegexpNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ReturnNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ReturnNode (method)">#visit_ReturnNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_SetterPropertyNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_SetterPropertyNode (method)">#visit_SetterPropertyNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_StringNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_StringNode (method)">#visit_StringNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_SwitchNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_SwitchNode (method)">#visit_SwitchNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ThisNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ThisNode (method)">#visit_ThisNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_ThrowNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_ThrowNode (method)">#visit_ThrowNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_TrueNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_TrueNode (method)">#visit_TrueNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_TryNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_TryNode (method)">#visit_TryNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_TypeOfNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_TypeOfNode (method)">#visit_TypeOfNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_UnaryMinusNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_UnaryMinusNode (method)">#visit_UnaryMinusNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_UnaryPlusNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_UnaryPlusNode (method)">#visit_UnaryPlusNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_VarStatementNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_VarStatementNode (method)">#visit_VarStatementNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_VoidNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_VoidNode (method)">#visit_VoidNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_WhileNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_WhileNode (method)">#visit_WhileNode</a></span>, <span class='object_link'><a href="ECMANoWhitespaceVisitor.html#visit_WithNode-instance_method" title="JSObfu::ECMANoWhitespaceVisitor#visit_WithNode (method)">#visit_WithNode</a></span></p>
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="JSObfu::Analyzer (class)">Analyzer</a></span></tt>) <strong>initialize</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns a new instance of Analyzer</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+9
+10
+11
+12</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 9</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span>
+  <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Scope</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+  <span class='ivar'>@external_refs</span>  <span class='op'>=</span> <span class='const'>Set</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="external_refs-instance_method">
+  
+    - (<tt>Object</tt>) <strong>external_refs</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute external_refs</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+6
+7
+8</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 6</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_external_refs'>external_refs</span>
+  <span class='ivar'>@external_refs</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="scope-instance_method">
+  
+    - (<tt>Object</tt>) <strong>scope</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the value of attribute scope</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+7
+8
+9</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 7</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_scope'>scope</span>
+  <span class='ivar'>@scope</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="visit_ParameterNode-instance_method">
+  
+    - (<tt>Object</tt>) <strong>visit_ParameterNode</strong>(o) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Called when a parameter is declared. "Shadowed" parameters in the original
+source are preserved - the randomized name is "shadowed" from the outer
+scope.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+58
+59
+60
+61
+62</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 58</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_ParameterNode'>visit_ParameterNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_random_var_encoding'>random_var_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="visit_ResolveNode-instance_method">
+  
+    - (<tt>Object</tt>) <strong>visit_ResolveNode</strong>(o) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Called whenever a variable is referred to (not declared).</p>
+
+<p>If the variable was never added to scope, it is assumed to be a global
+object (like "document"), and hence will not be obfuscated.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_ResolveNode'>visit_ResolveNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_new_val'>new_val</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='symbol'>:generate</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span>
+  <span class='kw'>unless</span> <span class='id identifier rubyid_new_val'>new_val</span>
+    <span class='ivar'>@external_refs</span> <span class='op'>&lt;&lt;</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span>
+  <span class='kw'>end</span>
+
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="visit_SourceElementsNode-instance_method">
+  
+    - (<tt>Object</tt>) <strong>visit_SourceElementsNode</strong>(o) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Maintains a stack of closures that we have visited. This method is called
+everytime we visit a nested function.</p>
+
+<p>Javascript is functionally-scoped, so a function(){} creates its own unique
+closure. When resolving variables, Javascript looks "up" the closure stack,
+ending up as a property lookup in the global scope (available as `window`
+in all browsers)</p>
+
+<p>This is changed in newer ES versions, where a `let` keyword has been
+introduced, which has regular C-style block scoping. We'll ignore this
+feature since it is not yet widely used.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_SourceElementsNode'>visit_SourceElementsNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_push!'>push!</span>
+
+  <span class='id identifier rubyid_hoister'>hoister</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Hoister</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='label'>parent_scope:</span> <span class='id identifier rubyid_scope'>scope</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_x'>x</span><span class='op'>|</span> <span class='id identifier rubyid_hoister'>hoister</span><span class='period'>.</span><span class='id identifier rubyid_accept'>accept</span><span class='lparen'>(</span><span class='id identifier rubyid_x'>x</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+
+  <span class='id identifier rubyid_hoister'>hoister</span><span class='period'>.</span><span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_key'>key</span><span class='op'>|</span>
+    <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_key'>key</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_ret'>ret</span> <span class='op'>=</span> <span class='kw'>super</span>
+
+  <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_pop!'>pop!</span>
+  
+  <span class='id identifier rubyid_hoister'>hoister</span><span class='period'>.</span><span class='id identifier rubyid_scope_declaration'>scope_declaration</span> <span class='op'>+</span> <span class='id identifier rubyid_ret'>ret</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="visit_VarDeclNode-instance_method">
+  
+    - (<tt>Object</tt>) <strong>visit_VarDeclNode</strong>(o) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Called whenever a variable is declared.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/analyzer.rb', line 65</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_visit_VarDeclNode'>visit_VarDeclNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_random_var_encoding'>random_var_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='rparen'>)</span>
+
+  <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Thu Sep 18 22:50:28 2014 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.7.4 (ruby-1.9.3).
+</div>
+
+  </body>
+</html>
