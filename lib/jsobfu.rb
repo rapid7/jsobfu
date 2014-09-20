@@ -1,6 +1,8 @@
 require 'rkelly'
 
+#
 # The primary class, used to parse and obfuscate Javascript code.
+#
 class JSObfu
 
   require_relative 'jsobfu/scope'
@@ -8,6 +10,9 @@ class JSObfu
   require_relative 'jsobfu/ecma_tight'
   require_relative 'jsobfu/hoister'
   require_relative 'jsobfu/obfuscator'
+  require_relative 'jsobfu/disable'
+
+  include JSObfu::Disable
 
   # @return [JSObfu::Scope] the global scope
   attr_reader :scope
@@ -44,6 +49,8 @@ class JSObfu
   #   obfuscator on this code (1)
   # @return [String] if successful
   def obfuscate(opts={})
+    return self if JSObfu.disabled?
+
     iterations = opts.fetch(:iterations, 1).to_i
     strip_whitespace = opts.fetch(:strip_whitespace, true)
 
