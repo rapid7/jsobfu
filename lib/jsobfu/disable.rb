@@ -8,12 +8,13 @@ module JSObfu::Disable
     @@lock = Mutex.new
     @@disabled = false
 
-    # Disables obfuscation globally, useful for unit tests etc
+    # Globally enable or disable obfuscation, useful for unit tests etc
+    # @param val [Boolean] the global obfuscation state to set
     def disabled=(val)
       @@lock.synchronize { @@disabled = val }
     end
 
-    # Disables obfuscation globally, useful for unit tests etc
+    # @return [Boolean] obfuscation is globally disabled
     def disabled?
       @@disabled
     end
