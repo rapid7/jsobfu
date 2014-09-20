@@ -3,6 +3,9 @@
 # root scope, which is useful for "hoisting" var and function
 # declaration to the top of the function.
 #
+# Although the auto-hoisting is no longer used, this class is used
+# to "discover" a function's variables and scope.
+#
 class JSObfu::Hoister < RKelly::Visitors::Visitor
 
   # @return [Hash] the scope maintained while walking the ast
@@ -11,12 +14,14 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
   # @return [Array<String>] the function names in the first level of this closure
   attr_reader :functions
 
+  # @param opts [Hash] the options hash
+  # @option opts [Integer] :max_depth the maximum depth to hoist (1)
+  # @option opts [Scope] :parent_scope the owner's scope
   def initialize(opts={})
     @parent_scope = opts.fetch(:parent_scope, nil)
     @max_depth  = 1
     @depth      = 0
     @scope      = {}
-    @resolves   = []
     @functions  = []
     super()
   end
@@ -33,7 +38,7 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
   end
 
   def visit_FunctionDeclNode(o)    
-    @functions << o.value
+    functions << o.value
     scope[o.value] = o
   end
 
@@ -69,16 +74,14 @@ class JSObfu::Hoister < RKelly::Visitors::Visitor
       keys = keys.shuffle
     end
 
-    keys.delete_if { |k| @functions.include? k }
+    keys.delete_if { |k| functions.include? k }
 
     if @parent_scope
       keys.delete_if { |k| @parent_scope.has_key? k }
       keys.map! { |k| @parent_scope.renames[k.to_s] || k }
     end
 
-    str = if keys.empty? then '' else "var #{keys.join(",")};" end
-    # puts str if str.length>0
-    str
+    if keys.empty? then '' else "var #{keys.join(",")};" end
   end
 
 end
