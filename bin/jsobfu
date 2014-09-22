@@ -1,0 +1,8 @@
+#!/usr/bin/env ruby
+require 'jsobfu'
+
+iterations = (ARGV[0] || 1).to_i
+
+js = JSObfu.new(STDIN.read)
+
+puts js.obfuscate(iterations: iterations)

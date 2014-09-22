@@ -47,7 +47,7 @@ class JSObfu
   #   the output code (true)
   # @option opts [Integer] :iterations number of times to run the
   #   obfuscator on this code (1)
-  # @return [String] if successful
+  # @return [self]
   def obfuscate(opts={})
     return self if JSObfu.disabled?
 
@@ -85,7 +85,7 @@ class JSObfu
 
   # Returns the obfuscated name for the variable or function +sym+
   #
-  # @param [String] sym the name of the variable or function 
+  # @param sym [String] the name of the variable or function
   # @return [String] the obfuscated name
   def sym(sym)
     return sym.to_s if @renames.nil?
