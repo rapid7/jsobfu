@@ -88,7 +88,7 @@ class JSObfu
   # @param sym [String] the name of the variable or function
   # @return [String] the obfuscated name
   def sym(sym)
-    raise RuntimeError, "Must obfuscate before calling #sym" if @renames.nil?
+    return sym.to_s if @renames.nil?
     @renames[sym.to_s]
   end
 

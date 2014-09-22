@@ -3,3 +3,6 @@
 doc
 Gemfile.lock
 coverage/
+# Rubymine project directory
+.idea
+
