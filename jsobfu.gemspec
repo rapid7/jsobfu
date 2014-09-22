@@ -6,6 +6,7 @@ Gem::Specification.new do |spec|
   spec.authors       = ["James Lee", "Joe Vennix"]
   spec.email         = 'joev@metasploit.com'
   spec.files         = `git ls-files`.split($/).reject { |f| f !~ /\.rb$/ }
+  spec.executables   = Dir.glob('bin/*').map{ |f| File.basename(f) }
   spec.test_files    = `git ls-files -- {spec}/*`.split($/).reject { |f| f !~ /\.rb$/ }
   spec.require_paths = ['lib']
   spec.homepage      = 'https://github.com/rapid7/jsobfu'
