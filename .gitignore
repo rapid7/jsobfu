@@ -2,3 +2,6 @@
 .DS_Store
 Gemfile.lock
 coverage/
+# Rubymine project directory
+.idea
+
