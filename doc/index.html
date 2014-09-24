@@ -131,6 +131,11 @@ heck_s&quot;,S=&quot;oc&quot;; return B+S+D+TF })())],('Mcc'.length*51+47));};
 <pre class="code ruby"><code class="ruby">$ cat source.js | ruby -r jsobfu -e &quot;puts JSObfu.new(STDIN.read).obfuscate&quot;
 </code></pre>
 
+<p>Options for obfuscation iterations and global object names can be passed:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'>JSObfu</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_blah'>blah</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_obfuscate'>obfuscate</span><span class='lparen'>(</span><span class='label'>iterations:</span> <span class='int'>3</span><span class='comma'>,</span> <span class='label'>global:</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>this</span><span class='tstring_end'>'</span></span><span class='rparen'>)</span>
+</code></pre>
+
 <h3>Development Environment</h3>
 
 <p>Setting up is easy:</p>
@@ -160,7 +165,7 @@ $ cd doc; python -m SimpleHttpServer 9999
 </div></div>
 
     <div id="footer">
-  Generated on Mon Sep 22 15:50:54 2014 by
+  Generated on Wed Sep 24 15:53:56 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>

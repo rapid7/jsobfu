@@ -104,11 +104,63 @@
 <div class="clear"></div>
 
 
+  <h2>Constant Summary</h2>
+  
+    <dl class="constants">
+      
+        <dt id="DEFAULT_GLOBAL-constant" class="">DEFAULT_GLOBAL =
+          <div class="docstring">
+  <div class="discussion">
+    
+<p>unresolved lookups are rewritten as property lookups on the global object</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+        </dt>
+        <dd><pre class="code"><span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>window</span><span class='tstring_end'>'</span></span></pre></dd>
+      
+    </dl>
+  
+
 
 
 
   <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
   <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#global-instance_method" title="#global (instance method)">- (String) <strong>global</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The global object in this JS environment.</p>
+</div></span>
+  
+</li>
+
     
       <li class="public ">
   <span class="summary_signature">
@@ -563,6 +615,20 @@
           
         </li>
       
+        <li>
+          <span class="name">:global</span>
+          <span class="type">(<tt>String</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the global object to rewrite unresolved lookups to. Depending on the
+environment, it may be `window`, `global`, or `this`.</p>
+</div>
+          
+        </li>
+      
     </ul>
   
 
@@ -573,17 +639,19 @@
       <pre class="lines">
 
 
-17
-18
-19
-20
-21</pre>
+21
+22
+23
+24
+25
+26</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 17</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 21</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@scope</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:scope</span><span class='comma'>,</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Scope</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='rparen'>)</span>
+  <span class='ivar'>@global</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='symbol'>:global</span><span class='comma'>,</span> <span class='const'>DEFAULT_GLOBAL</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@renames</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
@@ -600,7 +668,68 @@
       
       <span id=""></span>
       <div class="method_details first">
-  <h3 class="signature first" id="renames-instance_method">
+  <h3 class="signature first" id="global-instance_method">
+  
+    - (<tt>String</tt>) <strong>global</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the global object in this JS environment</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the global object in this JS environment</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+12
+13
+14</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 12</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_global'>global</span>
+  <span class='ivar'>@global</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="renames-instance_method">
   
     - (<tt>Hash</tt>) <strong>renames</strong>  <span class="extras">(readonly)</span>
   
@@ -643,12 +772,12 @@
       <pre class="lines">
 
 
-13
-14
-15</pre>
+9
+10
+11</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 13</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 9</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_renames'>renames</span>
   <span class='ivar'>@renames</span>
@@ -752,12 +881,12 @@
       <pre class="lines">
 
 
-139
-140
-141</pre>
+150
+151
+152</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 139</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 150</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_var_name'>var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='op'>=</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span>
   <span class='ivar'>@renames</span><span class='lbracket'>[</span><span class='id identifier rubyid_var_name'>var_name</span><span class='rbracket'>]</span> <span class='op'>=</span> <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_var_name'>var_name</span><span class='comma'>,</span> <span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
@@ -793,13 +922,13 @@
       <pre class="lines">
 
 
-96
-97
-98
-99</pre>
+107
+108
+109
+110</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 107</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_DotAccessorNode'>visit_DotAccessorNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_obf_str'>obf_str</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_transform_string'>transform_string</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_accessor'>accessor</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span><span class='comma'>,</span> <span class='symbol'>:quotes</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span>
@@ -825,20 +954,20 @@
       <pre class="lines">
 
 
-51
-52
-53
-54
-55
 56
 57
 58
 59
 60
-61</pre>
+61
+62
+63
+64
+65
+66</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 51</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 56</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_FunctionDeclNode'>visit_FunctionDeclNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='kw'>if</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='kw'>and</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span>
@@ -871,16 +1000,16 @@
       <pre class="lines">
 
 
-63
-64
-65
-66
-67
 68
-69</pre>
+69
+70
+71
+72
+73
+74</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 63</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 68</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_FunctionExprNode'>visit_FunctionExprNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>!=</span> <span class='tstring'><span class='tstring_beg'>'</span><span class='tstring_content'>function</span><span class='tstring_end'>'</span></span>
@@ -909,13 +1038,13 @@
       <pre class="lines">
 
 
-119
-120
-121
-122</pre>
+130
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 119</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 130</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_NumberNode'>visit_NumberNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_transform_number'>transform_number</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span>
@@ -954,14 +1083,14 @@ scope.</p>
       <pre class="lines">
 
 
-103
-104
-105
-106
-107</pre>
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 103</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_ParameterNode'>visit_ParameterNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_random_var_encoding'>random_var_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -999,17 +1128,17 @@ scope.</p>
       <pre class="lines">
 
 
-110
-111
-112
-113
-114
-115
-116
-117</pre>
+121
+122
+123
+124
+125
+126
+127
+128</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 110</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 121</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_PropertyNode'>visit_PropertyNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='comment'># if it is a non-alphanumeric property, obfuscate the string's bytes
@@ -1053,20 +1182,26 @@ object (like "document"), and hence will not be obfuscated.</p>
       <pre class="lines">
 
 
-83
-84
-85
-86
-87
 88
 89
 90
 91
 92
-93</pre>
+93
+94
+95
+96
+97
+98
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 83</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 88</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_ResolveNode'>visit_ResolveNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_new_val'>new_val</span> <span class='op'>=</span> <span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='symbol'>:generate</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span>
@@ -1075,8 +1210,14 @@ object (like "document"), and hence will not be obfuscated.</p>
     <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_random_var_encoding'>random_var_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_new_val'>new_val</span><span class='rparen'>)</span>
     <span class='kw'>super</span>
   <span class='kw'>else</span>
-    <span class='comment'># A global is used, at least obfuscate the lookup
-</span>    <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>window[</span><span class='embexpr_beg'>#{</span><span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_transform_string'>transform_string</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span><span class='comma'>,</span> <span class='symbol'>:quotes</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>==</span> <span class='id identifier rubyid_global'>global</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+      <span class='comment'># if the ref is the global object, don't obfuscate it on itself. This helps
+</span>      <span class='comment'># &quot;shimmed&quot; globals (like `window=this` at the top of the script) work reliably.
+</span>      <span class='kw'>super</span>
+    <span class='kw'>else</span>
+      <span class='comment'># A global is used, at least obfuscate the lookup
+</span>      <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_global'>global</span><span class='rbrace'>}</span><span class='tstring_content'>[</span><span class='embexpr_beg'>#{</span><span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_transform_string'>transform_string</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span><span class='comma'>,</span> <span class='symbol'>:quotes</span> <span class='op'>=&gt;</span> <span class='kw'>false</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>]</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1120,11 +1261,6 @@ feature since it is not yet widely used.</p>
       <pre class="lines">
 
 
-34
-35
-36
-37
-38
 39
 40
 41
@@ -1135,10 +1271,15 @@ feature since it is not yet widely used.</p>
 46
 47
 48
-49</pre>
+49
+50
+51
+52
+53
+54</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 34</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 39</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_SourceElementsNode'>visit_SourceElementsNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_scope'>scope</span><span class='period'>.</span><span class='id identifier rubyid_push!'>push!</span>
@@ -1176,13 +1317,13 @@ feature since it is not yet widely used.</p>
       <pre class="lines">
 
 
-124
-125
-126
-127</pre>
+135
+136
+137
+138</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 124</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 135</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_StringNode'>visit_StringNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_transform_string'>transform_string</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_scope'>scope</span><span class='rparen'>)</span>
@@ -1208,15 +1349,15 @@ feature since it is not yet widely used.</p>
       <pre class="lines">
 
 
-129
-130
-131
-132
-133
-134</pre>
+140
+141
+142
+143
+144
+145</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 129</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 140</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_TryNode'>visit_TryNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_catch_block'>catch_block</span>
@@ -1255,14 +1396,14 @@ feature since it is not yet widely used.</p>
       <pre class="lines">
 
 
-72
-73
-74
-75
-76</pre>
+77
+78
+79
+80
+81</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 72</span>
+      <pre class="code"><span class="info file"># File 'lib/jsobfu/obfuscator.rb', line 77</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_visit_VarDeclNode'>visit_VarDeclNode</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='const'>JSObfu</span><span class='op'>::</span><span class='const'>Utils</span><span class='op'>::</span><span class='id identifier rubyid_random_var_encoding'>random_var_encoding</span><span class='lparen'>(</span><span class='id identifier rubyid_rename_var'>rename_var</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span><span class='rparen'>)</span>
@@ -1279,7 +1420,7 @@ feature since it is not yet widely used.</p>
 </div>
 
     <div id="footer">
-  Generated on Mon Sep 22 15:50:55 2014 by
+  Generated on Wed Sep 24 15:53:58 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>
