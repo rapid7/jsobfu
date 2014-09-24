@@ -64,6 +64,10 @@ Encode from the command line:
 
     $ cat source.js | ruby -r jsobfu -e "puts JSObfu.new(STDIN.read).obfuscate"
 
+Options for obfuscation iterations and global object names can be passed:
+
+    JSObfu.new(blah).obfuscate(iterations: 3, global: 'this')
+
 ### Development Environment
 
 Setting up is easy:

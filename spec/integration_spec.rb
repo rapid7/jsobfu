@@ -19,7 +19,7 @@ describe 'Integrations' do
       num = $1.to_i
     end
 
-    # ensure there is a global object to reference.
+    # ensure there is a global object to reference, regardless of the JS backend.
     js = "window=this; #{js}"
 
     num.times do

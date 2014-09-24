@@ -47,6 +47,8 @@ class JSObfu
   #   the output code (true)
   # @option opts [Integer] :iterations number of times to run the
   #   obfuscator on this code (1)
+  # @option opts [String] :global the global object to rewrite unresolved lookups to.
+  #   Depending on the environment, it may be `window`, `global`, or `this`.
   # @return [self]
   def obfuscate(opts={})
     return self if JSObfu.disabled?
@@ -55,7 +57,7 @@ class JSObfu
     strip_whitespace = opts.fetch(:strip_whitespace, true)
 
     iterations.times do |i|
-      obfuscator = JSObfu::Obfuscator.new(scope: @scope)
+      obfuscator = JSObfu::Obfuscator.new(opts.merge(scope: @scope))
       @code = obfuscator.accept(ast).to_s
       if strip_whitespace
         @code.gsub!(/(^\s+|\s+$)/, '')
@@ -98,8 +100,7 @@ protected
   # Generate an Abstract Syntax Tree (#ast) for later obfuscation
   #
   def parse
-    parser = RKelly::Parser.new
-    @ast = parser.parse(@code)
+    @ast = RKelly::Parser.new.parse(@code)
   end
 
 end

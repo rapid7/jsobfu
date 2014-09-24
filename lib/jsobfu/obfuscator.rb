@@ -5,17 +5,22 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # @return [JSObfu::Scope] the scope maintained while walking the ast
   attr_reader :scope
 
-  # Note: At a high level #renames is not that useful, because var shadowing can
-  # cause multiple variables in different contexts to be mapped separately.
-  # - joev
-
   # @return [Hash] of original var/fn names to our new random neames
   attr_reader :renames
 
+  # @return [String] the global object in this JS environment
+  attr_reader :global
+
+  # unresolved lookups are rewritten as property lookups on the global object
+  DEFAULT_GLOBAL = 'window'
+
   # @param opts [Hash] the options hash
   # @option opts [JSObfu::Scope] :scope the optional scope to save vars to
+  # @option opts [String] :global the global object to rewrite unresolved lookups to.
+  #   Depending on the environment, it may be `window`, `global`, or `this`.
   def initialize(opts={})
     @scope = opts.fetch(:scope, JSObfu::Scope.new)
+    @global = opts.fetch(:global, DEFAULT_GLOBAL).to_s
     @renames = {}
     super()
   end
@@ -87,8 +92,14 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
       o.value = JSObfu::Utils::random_var_encoding(new_val)
       super
     else
-      # A global is used, at least obfuscate the lookup
-      "window[#{JSObfu::Utils::transform_string(o.value, scope, :quotes => false)}]"
+      if o.value.to_s == global.to_s
+        # if the ref is the global object, don't obfuscate it on itself. This helps
+        # "shimmed" globals (like `window=this` at the top of the script) work reliably.
+        super
+      else
+        # A global is used, at least obfuscate the lookup
+        "#{global}[#{JSObfu::Utils::transform_string(o.value, scope, :quotes => false)}]"
+      end
     end
   end
 
