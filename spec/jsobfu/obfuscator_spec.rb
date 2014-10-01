@@ -31,4 +31,20 @@ describe JSObfu::Obfuscator do
     end
   end
 
+  describe 'when encountering the void() keyword' do
+
+    let(:opts) { { iterations: 3 } }
+    let(:simple_js) { "void(null);" }
+    let(:simple_ast) { RKelly::Parser.new.parse(simple_js) }
+
+    it 'does not rewrite the void() call as a global property lookup' do
+      expect(obfuscator.accept(simple_ast).to_s).not_to include("window")
+    end
+
+    it 'does not obfuscate the keyword void' do
+      expect(obfuscator.accept(simple_ast).to_s).to include("void")
+    end
+
+  end
+
 end
