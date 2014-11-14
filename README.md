@@ -62,7 +62,7 @@ Will produce something that looks like:
 
 Encode from the command line:
 
-    $ jsobfu source.js 3
+    $ cat source.js | jsobfu 3
 
 Options for obfuscation iterations and global object names can be passed:
 
