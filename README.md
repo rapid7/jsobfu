@@ -62,7 +62,7 @@ Will produce something that looks like:
 
 Encode from the command line:
 
-    $ cat source.js | ruby -r jsobfu -e "puts JSObfu.new(STDIN.read).obfuscate"
+    $ jsobfu source.js 3
 
 Options for obfuscation iterations and global object names can be passed:
 
