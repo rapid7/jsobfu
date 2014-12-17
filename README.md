@@ -78,9 +78,9 @@ Setting up is easy:
 ### Generating documentation
 
     $ yard
-    $ cd doc; ruby -run -e httpd -- --port=9999 .
+    $ yard server
 
-Then open [http://localhost:9999](http://localhost:9999) in your browser.
+Then open [http://localhost:8808](http://localhost:8808) in your browser.
 
 ### Running specs
 
