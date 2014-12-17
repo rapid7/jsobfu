@@ -78,7 +78,7 @@ Setting up is easy:
 ### Generating documentation
 
     $ yard
-    $ cd doc; python -m SimpleHttpServer 9999
+    $ cd doc; ruby -run -e httpd -- --port=9999 .
 
 Then open [http://localhost:9999](http://localhost:9999) in your browser.
 
