@@ -146,8 +146,7 @@ $ bundle install
 
 <h3>Generating documentation</h3>
 
-<pre class="code ruby"><code class="ruby">$ yard
-$ cd doc; ruby -run -e httpd -- --port=9999 .
+<pre class="code ruby"><code class="ruby">$ yard &amp;&amp; yard server --port 9999
 </code></pre>
 
 <p>Then open <a href="http://localhost:9999">http://localhost:9999</a> in your browser.</p>
@@ -165,7 +164,7 @@ $ cd doc; ruby -run -e httpd -- --port=9999 .
 </div></div>
 
     <div id="footer">
-  Generated on Wed Dec 17 11:17:34 2014 by
+  Generated on Wed Dec 17 11:27:14 2014 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.7.4 (ruby-1.9.3).
 </div>
