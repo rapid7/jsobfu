@@ -12,7 +12,10 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   attr_reader :global
 
   # unresolved lookups are rewritten as property lookups on the global object
-  DEFAULT_GLOBAL = 'window'
+  DEFAULT_GLOBAL  = 'window'
+
+  # some "global" functions are actually keywords, like void(5)
+  BUILTIN_METHODS = ['void']
 
   # @param opts [Hash] the options hash
   # @option opts [JSObfu::Scope] :scope the optional scope to save vars to
@@ -86,6 +89,10 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # object (like "document"), and hence will not be obfuscated.
   #
   def visit_ResolveNode(o)
+    if is_builtin_method?(o.value)
+      return super
+    end
+
     new_val = rename_var(o.value, :generate => false)
 
     if new_val
@@ -149,6 +156,10 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # Assigns the var +var_name+ a new obfuscated name
   def rename_var(var_name, opts={})
     @renames[var_name] = scope.rename_var(var_name, opts)
+  end
+
+  def is_builtin_method?(method)
+    BUILTIN_METHODS.include?(method)
   end
 
 end

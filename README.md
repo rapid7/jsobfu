@@ -62,7 +62,7 @@ Will produce something that looks like:
 
 Encode from the command line:
 
-    $ cat source.js | ruby -r jsobfu -e "puts JSObfu.new(STDIN.read).obfuscate"
+    $ cat source.js | jsobfu 3
 
 Options for obfuscation iterations and global object names can be passed:
 
@@ -78,7 +78,7 @@ Setting up is easy:
 ### Generating documentation
 
     $ yard
-    $ cd doc; python -m SimpleHttpServer 9999
+    $ cd doc; ruby -run -e httpd -- --port=9999 .
 
 Then open [http://localhost:9999](http://localhost:9999) in your browser.
 
