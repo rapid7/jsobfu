@@ -21,9 +21,13 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # @option opts [JSObfu::Scope] :scope the optional scope to save vars to
   # @option opts [String] :global the global object to rewrite unresolved lookups to.
   #   Depending on the environment, it may be `window`, `global`, or `this`.
+  # @option opts [Boolean] :memory_sensitive the execution environment is sensitive
+  #   to changes in memory usage (e.g. a heap spray). This disables string transformations
+  #   and other "noisy" obfuscation tactics. (false)
   def initialize(opts={})
-    @scope = opts.fetch(:scope, JSObfu::Scope.new)
+    @scope = opts.fetch(:scope) { JSObfu::Scope.new }
     @global = opts.fetch(:global, DEFAULT_GLOBAL).to_s
+    @memory_sensitive = !!opts.fetch(:memory_sensitive, false)
     @renames = {}
     super()
   end
@@ -99,7 +103,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
       o.value = JSObfu::Utils::random_var_encoding(new_val)
       super
     else
-      if o.value.to_s == global.to_s
+      if @memory_sensitive || o.value.to_s == global.to_s
         # if the ref is the global object, don't obfuscate it on itself. This helps
         # "shimmed" globals (like `window=this` at the top of the script) work reliably.
         super
@@ -112,8 +116,12 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   # Called on a dot lookup, like X.Y
   def visit_DotAccessorNode(o)
-    obf_str = JSObfu::Utils::transform_string(o.accessor, scope, :quotes => false)
-    "#{o.value.accept(self)}[(#{obf_str})]"
+    if @memory_sensitive
+      super
+    else
+      obf_str = JSObfu::Utils::transform_string(o.accessor, scope, :quotes => false)
+      "#{o.value.accept(self)}[(#{obf_str})]"
+    end
   end
 
   # Called when a parameter is declared. "Shadowed" parameters in the original
@@ -127,20 +135,28 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # A property node in an object "{}"
   def visit_PropertyNode(o)
     # if it is a non-alphanumeric property, obfuscate the string's bytes
-    if o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
-       o.instance_variable_set :@name, '"'+JSObfu::Utils::random_string_encoding(o.name)+'"'
+    unless @memory_sensitive
+      if o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
+         o.instance_variable_set :@name, '"'+JSObfu::Utils::random_string_encoding(o.name)+'"'
+      end
     end
 
     super
   end
 
   def visit_NumberNode(o)
-    o.value = JSObfu::Utils::transform_number(o.value)
+    unless @memory_sensitive
+      o.value = JSObfu::Utils::transform_number(o.value)
+    end
+
     super
   end
 
   def visit_StringNode(o)
-    o.value = JSObfu::Utils::transform_string(o.value, scope)
+    unless @memory_sensitive
+      o.value = JSObfu::Utils::transform_string(o.value, scope)
+    end
+
     super
   end
 
