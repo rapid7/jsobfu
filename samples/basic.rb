@@ -23,4 +23,4 @@ source = %Q|
   };
 |
 
-puts JSObfu.new('var me = "BAR"; var description = "FOO" + me;').obfuscate(memory_sensitive: true)
+puts JSObfu.new(source).obfuscate
