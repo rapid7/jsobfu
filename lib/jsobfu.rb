@@ -70,9 +70,6 @@ class JSObfu
     iterations = opts.fetch(:iterations, 1).to_i
     strip_whitespace = opts.fetch(:strip_whitespace, true)
 
-    # Enter all of the renames into current scope
-    @scope.renames.merge!(@renames || {})
-
     iterations.times do |i|
       obfuscator = JSObfu::Obfuscator.new(opts.merge(scope: @scope))
       @code = obfuscator.accept(ast).to_s
@@ -95,6 +92,9 @@ class JSObfu
         @ast = nil # force a re-parse
       end
     end
+
+    # Enter all of the renames into current scope
+    @scope.renames.merge!(@renames || {})
 
     self
   end
