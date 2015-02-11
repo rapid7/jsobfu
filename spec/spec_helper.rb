@@ -2,6 +2,7 @@ require 'simplecov'
 require 'rspec/core'
 require 'rspec/mocks'
 require 'jsobfu'
+require 'pathname'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
