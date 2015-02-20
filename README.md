@@ -68,6 +68,37 @@ Options for obfuscation iterations and global object names can be passed:
 
     JSObfu.new(blah).obfuscate(iterations: 3, global: 'this')
 
+### Memory Disruption
+
+Obfuscation of this type can cause completely different memory footprints on every run. This can be annoying in some instances (like during a heap spray). To avoid this, a `memory_sensitive` option is provided:
+
+    JSObfu.new('var me = "BAR";\nvar description = "FOO" + me;').obfuscate(memory_sensitive: true)
+    #=> var y="BAR";var x="FOO"+y;
+
+Note that the variables are still randomized and whitespace is stripped, but the String transformations are omitted.
+
+### Obfuscating multiple inputs
+
+Typically you will want to create a new `JSObfu` instance per script you create, but sometimes you need the ability to generate obfuscated code on-demand that is compatible with other, already obfuscated scripts in the page. To do this you can reuse a `JSObfu` instance by replacing its `code` member:
+
+    j1 = JSObfu.new('var JSObfu = 1;')
+    j1.obfuscate           #=> 'var y = 1;'
+
+    j1.code = 'var Value2 = JSObfu + 2;'
+    j1.obfuscate           #=> 'var x = y + 2;'
+
+Alternatively, you can persist the instance's `#scope` (which contains a map of top-level variable renames) and pass it into a new instance of `JSObfu` later:
+
+    j1 = JSObfu.new('var JSObfu = 1;')
+    j1.obfuscate           #=> 'var y = 1;'
+
+    j2 = JSObfu.new('var Value2 = JSObfu + 2;', scope: j1.scope)
+    j2.obfuscate           #=> 'var x = y + 2;'
+
+### Deobfuscation
+
+Just as coding these transformations is possible, so is the inverse. Hats off to [@m1el](https://github.com/m1el) for creating a [jsobfu deobfuscator](http://m1el.github.io/esdeobfuscate/)! Don't forget, `jsobfu` will never stop a determined analyst; but it can be very helpful against static detection.
+
 ### Development Environment
 
 Setting up is easy:

@@ -19,9 +19,12 @@ class JSObfu
 
   # Saves +code+ for later obfuscation with #obfuscate
   # @param code [#to_s] the code to obfuscate
-  def initialize(code)
-    @code = code.to_s
-    @scope = Scope.new
+  # @param opts [Hash] an options hash
+  # @option opts [JSObfu::Scope] a pre-existing scope. This is useful for preserving
+  #   variable rename maps between separate obfuscations of different scripts.
+  def initialize(code=nil, opts={})
+    self.code = code
+    @scope = opts.fetch(:scope) { Scope.new }
   end
 
   # Add +str+ to the un-obfuscated code.
@@ -37,7 +40,14 @@ class JSObfu
 
   # @return [RKelly::Nodes::SourceElementsNode] the abstract syntax tree
   def ast
-    @ast || parse
+    @ast ||= parse
+  end
+
+  # Sets the code that this obfuscator will transform
+  # @param [String] code
+  def code=(code)
+    @ast = nil # invalidate any previous parses
+    @code = code
   end
 
   # Parse and obfuscate
@@ -49,9 +59,13 @@ class JSObfu
   #   obfuscator on this code (1)
   # @option opts [String] :global the global object to rewrite unresolved lookups to.
   #   Depending on the environment, it may be `window`, `global`, or `this`.
+  # @option opts [Boolean] :memory_sensitive the execution environment is sensitive
+  #   to changes in memory usage (e.g. a heap spray). This disables string transformations
+  #   and other "noisy" obfuscation tactics. (false)
   # @return [self]
   def obfuscate(opts={})
     return self if JSObfu.disabled?
+    raise ArgumentError.new("code must be present") if @code.nil?
 
     iterations = opts.fetch(:iterations, 1).to_i
     strip_whitespace = opts.fetch(:strip_whitespace, true)
@@ -65,15 +79,12 @@ class JSObfu
         @code.delete!("\r")
       end
 
-      new_renames = obfuscator.renames.dup
       if @renames
         # "patch up" the renames after each iteration
-        @renames.each do |key, prev_rename|
-          @renames[key] = new_renames[prev_rename]
-        end
+        @renames.merge! (obfuscator.renames)
       else
         # on first iteration, take the renames as-is
-        @renames = new_renames
+        @renames = obfuscator.renames.dup
       end
 
       unless i == iterations-1
@@ -81,6 +92,9 @@ class JSObfu
         @ast = nil # force a re-parse
       end
     end
+
+    # Enter all of the renames into current scope
+    @scope.renames.merge!(@renames || {})
 
     self
   end
@@ -96,11 +110,10 @@ class JSObfu
 
 protected
 
-  #
   # Generate an Abstract Syntax Tree (#ast) for later obfuscation
-  #
+  # @return [RKelly::Nodes::SourceElementsNode] the abstract syntax tree
   def parse
-    @ast = RKelly::Parser.new.parse(@code)
+    RKelly::Parser.new.parse(@code)
   end
 
 end
