@@ -21,7 +21,7 @@ describe JSObfu::Utils do
 
   describe '#rand_text_alpha' do
     let(:len) { 15 }
-    
+
     # generates a new random string on every call
     def output; JSObfu::Utils.rand_text_alpha(len); end
 
@@ -34,7 +34,7 @@ describe JSObfu::Utils do
     end
   end
 
-  describe '#rand_text' do    
+  describe '#rand_text' do
     let(:len) { 5 }
     let(:charset) { described_class::ALPHA_CHARSET }
 

@@ -5,7 +5,12 @@ require 'execjs'
 unless ENV['INTEGRATION'] == 'false'
 
 describe 'Integrations' do
+  match = ENV['MATCH']
   Dir.glob(Pathname.new(__FILE__).dirname.join('integration/**.js').to_s).each do |path|
+    if match and !path.downcase.include?(match.downcase)
+      next
+    end
+
     js = File.read(path)
 
     if js =~ /\/\/@wip/
