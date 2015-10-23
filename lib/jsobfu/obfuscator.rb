@@ -55,7 +55,8 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
     ret = super
 
-    scope.pop!
+    # maintain a single top-level scope
+    scope.pop!(retain: scope.depth == 0)
 
     ret
   end

@@ -24,12 +24,15 @@ class JSObfu::Scope < Hash
     parent opener event frameElement Error TypeError setTimeout setInterval
     top arguments Array Date
   )
-  
+
   # @return [JSObfu::Scope] parent that spawned this scope
   attr_accessor :parent
 
   # @return [Hash] mapping old var names to random ones
   attr_accessor :renames
+
+  # @return [Number] the 0-indexed depth of the scope stack
+  attr_accessor :depth
 
   # @param [Hash] opts the options hash
   # @option opts [Rex::Exploitation::JSObfu::Scope] :parent an optional parent scope,
@@ -41,6 +44,7 @@ class JSObfu::Scope < Hash
     @char_set       = opts[:first_char_set] || @first_char_set + [*'0'..'9']
     @min_len        = opts[:min_len] || 1
     @renames        = {}
+    @depth          = -1
   end
 
   # Generates a unique, "safe" random variable
@@ -60,7 +64,6 @@ class JSObfu::Scope < Hash
       len += 1
     end
   end
-
   # Re-maps your +var_name+ to a unique, random
   # names in the current scope
   #
@@ -122,6 +125,7 @@ class JSObfu::Scope < Hash
   # empties current scope, and returns. Essentially an in-place
   # push operation
   def push!
+    @depth += 1
     replacement = dup
     replacement.parent = @parent
     replacement.renames = @renames
@@ -131,8 +135,10 @@ class JSObfu::Scope < Hash
   end
 
   # "Consumes" the parent and replaces self with it
-  def pop!
-    clear
+  def pop!(opts={})
+    retain = opts.fetch(:retain, false)
+    @depth -= 1
+    clear unless retain
     if @parent
       merge! @parent
       @renames = @parent.renames
