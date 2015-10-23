@@ -357,7 +357,7 @@ module JSObfu::Utils
           str.slice!(0, $1.length)
         end
       else
-        char = str.slice!(0,1).unpack("C").first
+        char = str.slice!(0,1).unpack("U").first
       end
       encoded_bytes << rand_base(char) if char
     end
