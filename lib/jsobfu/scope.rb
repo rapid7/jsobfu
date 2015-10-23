@@ -24,7 +24,7 @@ class JSObfu::Scope < Hash
     parent opener event frameElement Error TypeError setTimeout setInterval
     top arguments Array Date
   )
-  
+
   # @return [JSObfu::Scope] parent that spawned this scope
   attr_accessor :parent
 

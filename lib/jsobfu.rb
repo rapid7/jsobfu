@@ -96,6 +96,9 @@ class JSObfu
     # Enter all of the renames into current scope
     @scope.renames.merge!(@renames || {})
 
+    # Ensure the scope itself "remembers" the new names in case it is re-used
+    @scope.merge!(@renames.invert || {})
+
     self
   end
 
