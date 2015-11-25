@@ -1,7 +1,6 @@
 Gem::Specification.new do |spec|
   spec.name          = 'jsobfu'
-  spec.version       = '0.3.0'
-  spec.date          = '2014-04-09'
+  spec.version       = '0.4.0'
   spec.summary       = "A Javascript code obfuscator"
   spec.authors       = ["James Lee", "Joe Vennix"]
   spec.email         = 'joev@metasploit.com'

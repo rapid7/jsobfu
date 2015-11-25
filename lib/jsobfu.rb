@@ -62,6 +62,7 @@ class JSObfu
   # @option opts [Boolean] :memory_sensitive the execution environment is sensitive
   #   to changes in memory usage (e.g. a heap spray). This disables string transformations
   #   and other "noisy" obfuscation tactics. (false)
+  # @option opts [Array<String>] :preserved_identifiers A list of identifiers to NOT obfuscate
   # @return [self]
   def obfuscate(opts={})
     return self if JSObfu.disabled?

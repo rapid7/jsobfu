@@ -28,6 +28,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     @scope = opts.fetch(:scope) { JSObfu::Scope.new }
     @global = opts.fetch(:global, DEFAULT_GLOBAL).to_s
     @memory_sensitive = !!opts.fetch(:memory_sensitive, false)
+    @preserved_identifiers = opts.fetch(:preserved_identifiers, [])
     @renames = {}
     super()
   end
@@ -50,7 +51,9 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
     o.value.each { |x| hoister.accept(x) }
 
     hoister.scope.keys.each do |key|
-      rename_var(key)
+      unless @preserved_identifiers.include?(key)
+        rename_var(key)
+      end
     end
 
     ret = super
@@ -62,7 +65,9 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   def visit_FunctionDeclNode(o)
     o.value = if o.value and o.value.length > 0
-      JSObfu::Utils::random_var_encoding(scope.rename_var(o.value))
+      unless @preserved_identifiers.include?(o.value)
+        JSObfu::Utils::random_var_encoding(scope.rename_var(o.value))
+      end
     else
       if rand(3) != 0
         JSObfu::Utils::random_var_encoding(scope.random_var_name)
@@ -73,7 +78,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   end
 
   def visit_FunctionExprNode(o)
-    if o.value != 'function'
+    if o.value != 'function' && !@preserved_identifiers.include?(o.value)
       o.value = JSObfu::Utils::random_var_encoding(rename_var(o.value))
     end
 
@@ -82,7 +87,9 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   # Called whenever a variable is declared.
   def visit_VarDeclNode(o)
-    o.name = JSObfu::Utils::random_var_encoding(rename_var(o.name))
+    unless @preserved_identifiers.include?(o.name)
+      o.name = JSObfu::Utils::random_var_encoding(rename_var(o.name))
+    end
 
     super
   end
@@ -103,7 +110,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
       o.value = JSObfu::Utils::random_var_encoding(new_val)
       super
     else
-      if @memory_sensitive || o.value.to_s == global.to_s
+      if @memory_sensitive || o.value.to_s == global.to_s || @preserved_identifiers.include?(o.value.to_s)
         # if the ref is the global object, don't obfuscate it on itself. This helps
         # "shimmed" globals (like `window=this` at the top of the script) work reliably.
         super
@@ -116,7 +123,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   # Called on a dot lookup, like X.Y
   def visit_DotAccessorNode(o)
-    if @memory_sensitive
+    if @memory_sensitive || @preserved_identifiers.include?(o.accessor)
       super
     else
       obf_str = JSObfu::Utils::transform_string(o.accessor, scope, :quotes => false)
@@ -127,7 +134,9 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # Called when a parameter is declared. "Shadowed" parameters in the original
   # source are preserved - the randomized name is "shadowed" from the outer scope.
   def visit_ParameterNode(o)
-    o.value = JSObfu::Utils::random_var_encoding(rename_var(o.value))
+    unless @preserved_identifiers.include?(o.value)
+      o.value = JSObfu::Utils::random_var_encoding(rename_var(o.value))
+    end
 
     super
   end
@@ -135,7 +144,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   # A property node in an object "{}"
   def visit_PropertyNode(o)
     # if it is a non-alphanumeric property, obfuscate the string's bytes
-    unless @memory_sensitive
+    unless @memory_sensitive || @preserved_identifiers.include?(o.name)
       if o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
          o.instance_variable_set :@name, '"'+JSObfu::Utils::random_string_encoding(o.name)+'"'
       end
@@ -162,7 +171,9 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
 
   def visit_TryNode(o)
     if o.catch_block
-      o.instance_variable_set :@catch_var, rename_var(o.catch_var)
+      unless @preserved_identifiers.include?(o.catch_var)
+        o.instance_variable_set :@catch_var, rename_var(o.catch_var)
+      end
     end
     super
   end
