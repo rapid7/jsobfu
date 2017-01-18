@@ -136,7 +136,7 @@ module JSObfu::Utils
   #
   def self.transform_number(num)
     case num
-    when Fixnum
+    when Integer
       if num == 0
         r = rand(10) + 1
         transformed = "('#{JSObfu::Utils.rand_text_alpha(r)}'.length-#{r})"
