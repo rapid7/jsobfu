@@ -12,6 +12,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
   spec.homepage      = 'https://github.com/rapid7/jsobfu'
   spec.license       = 'BSD-3-Clause'
+  spec.required_ruby_version = '>= 2.0.0'
 
   spec.add_runtime_dependency 'rkelly-remix'
 
