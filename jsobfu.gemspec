@@ -11,9 +11,9 @@ Gem::Specification.new do |spec|
   spec.homepage      = 'https://github.com/rapid7/jsobfu'
   spec.license       = 'BSD-3-Clause'
 
-  spec.add_runtime_dependency 'rkelly-remix', '0.0.6'
+  spec.add_runtime_dependency 'rkelly-remix'
 
-  spec.add_development_dependency 'rspec', '~> 3.1'
+  spec.add_development_dependency 'rspec'
   spec.add_development_dependency 'simplecov'
   spec.add_development_dependency 'execjs'
   spec.add_development_dependency 'rake'
