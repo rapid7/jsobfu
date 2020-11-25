@@ -146,7 +146,7 @@ class JSObfu::Obfuscator < JSObfu::ECMANoWhitespaceVisitor
   def visit_PropertyNode(o)
     # if it is a non-alphanumeric property, obfuscate the string's bytes
     unless @memory_sensitive || @preserved_identifiers.include?(o.name)
-      if o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
+      if !o.name.is_a?(Integer) && o.name =~ /^[a-zA-Z_][a-zA-Z0-9_]*$/
          o.instance_variable_set :@name, '"'+JSObfu::Utils::random_string_encoding(o.name)+'"'
       end
     end

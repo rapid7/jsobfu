@@ -11,7 +11,7 @@ describe 'Integrations' do
       next
     end
 
-    js = File.read(path)
+    js = File.read(path, external_encoding: "UTF-8")
 
     if js =~ /\/\/@wip/
       puts "Skipping @wip test #{File.basename path}\n"
