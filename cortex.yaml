@@ -1,0 +1,17 @@
+---
+info:
+  title: jsobfu
+  description: "Obfuscate JavaScript (beyond repair) with Ruby" 
+  x-cortex-git:
+    github:
+      alias: r7org
+      repository: rapid7/jsobfu
+  x-cortex-tag: jsobfu
+  x-cortex-type: service
+  x-cortex-domain-parents:
+  - tag: metasploit
+  x-cortex-groups:
+  - exposure:external-ship
+openapi: 3.0.1
+servers:
+- url: "/"
